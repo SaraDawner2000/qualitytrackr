@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
   root "parts#index"
-  resources :parts
+
   devise_for :users
+
+  resources :parts
+  resources :quality_projects
 end

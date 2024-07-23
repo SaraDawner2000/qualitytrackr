@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Quality projects</h1>
+
+<div id="quality_projects">
+  <% @quality_projects.each do |quality_project| %>
+    <%= render quality_project %>
+    <p>
+      <%= link_to "Show this quality project", quality_project %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New quality project", new_quality_project_path %>

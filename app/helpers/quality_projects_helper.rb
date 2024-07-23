@@ -1,0 +1,2 @@
+module QualityProjectsHelper
+end

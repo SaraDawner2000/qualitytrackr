@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @quality_project %>
+
+<div>
+  <%= link_to "Edit this quality project", edit_quality_project_path(@quality_project) %> |
+  <%= link_to "Back to quality projects", quality_projects_path %>
+
+  <%= button_to "Destroy this quality project", @quality_project, method: :delete %>
+</div>

@@ -10,12 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_07_23_175622) do
+ActiveRecord::Schema[7.0].define(version: 2024_07_23_181737) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   # Custom types defined in this database.
   # Note that some types may not work with other database engines. Be careful if changing database.
+  create_enum "customer_options", ["not_ready", "ready", "sent", "approved", "rejected"]
   create_enum "role_options", ["quality_manager", "quality_admin", "qc_tech", "prod_manager"]
 
   create_table "parts", force: :cascade do |t|
@@ -29,6 +30,21 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_23_175622) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["part_number", "revision"], name: "index_parts_on_part_number_and_revision", unique: true
+  end
+
+  create_table "quality_projects", force: :cascade do |t|
+    t.bigint "part_id", null: false
+    t.string "customer", null: false
+    t.string "customer_request"
+    t.string "purchase_order"
+    t.string "inspection_plan"
+    t.boolean "report_approval", default: false, null: false
+    t.string "assembled_record"
+    t.boolean "record_approval", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.enum "customer_approval", default: "not_ready", enum_type: "customer_options"
+    t.index ["part_id"], name: "index_quality_projects_on_part_id"
   end
 
   create_table "subcomponents", force: :cascade do |t|
@@ -65,6 +81,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_23_175622) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "quality_projects", "parts"
   add_foreign_key "subcomponents", "users", column: "child_id"
   add_foreign_key "subcomponents", "users", column: "parent_id"
 end
