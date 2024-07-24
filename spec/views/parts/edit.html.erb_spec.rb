@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "parts/edit", type: :view do
   let(:part) {
@@ -21,7 +21,6 @@ RSpec.describe "parts/edit", type: :view do
     render
 
     assert_select "form[action=?][method=?]", part_path(part), "post" do
-
       assert_select "input[name=?]", "part[part_number]"
 
       assert_select "input[name=?]", "part[revision]"
