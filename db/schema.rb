@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_07_23_181737) do
+ActiveRecord::Schema[7.0].define(version: 2024_07_24_172121) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -82,6 +82,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_23_181737) do
   end
 
   add_foreign_key "quality_projects", "parts"
-  add_foreign_key "subcomponents", "users", column: "child_id"
-  add_foreign_key "subcomponents", "users", column: "parent_id"
+  add_foreign_key "subcomponents", "parts", column: "child_id"
+  add_foreign_key "subcomponents", "parts", column: "parent_id"
 end
