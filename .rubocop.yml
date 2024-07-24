@@ -4,3 +4,7 @@ inherit_gem:
 
 Style/FrozenStringLiteralComment:
   Enabled: false
+
+AllCops:
+  Exclude:
+    - "**/Gemfile.lock"

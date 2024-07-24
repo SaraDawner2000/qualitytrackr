@@ -33,6 +33,7 @@ group :development do
   gem "annotate"
   gem "better_errors"
   gem "brakeman"
+  gem "bundler-audit"
   gem "faker"
   gem "pry-rails"
   gem "rails_db"

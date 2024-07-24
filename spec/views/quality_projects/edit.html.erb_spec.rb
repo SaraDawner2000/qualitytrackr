@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "quality_projects/edit", type: :view do
   let(:quality_project) {
@@ -22,7 +22,6 @@ RSpec.describe "quality_projects/edit", type: :view do
     render
 
     assert_select "form[action=?][method=?]", quality_project_path(quality_project), "post" do
-
       assert_select "input[name=?]", "quality_project[part_id]"
 
       assert_select "input[name=?]", "quality_project[customer]"
