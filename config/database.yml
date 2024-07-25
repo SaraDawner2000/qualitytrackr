@@ -5,12 +5,19 @@ default: &default
 
 development:
   <<: *default
-  database: flatiron_mod3_development
+  database: qualitrackr_development
 
 test:
   <<: *default
-  database: flatiron_mod3_test
+  database: qualitrackr_test
 
 production:
   <<: *default
-  database: flatiron_mod3_production
+  database: qualitrackr_production
+
+
+production:
+  <<: *default
+  database: qualitrackr_production
+  username: qualitrackr
+  password: <%= ENV["QUALITRACKR_DATABASE_PASSWORD"] %>
