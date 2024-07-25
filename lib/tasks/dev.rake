@@ -79,7 +79,7 @@ unless Rails.env.production?
       puts "#{Part.count} parts created"
     end
 
-    desc "Define random relationships between parts"
+    desc "Define random relationships between parts (create sample parts before)"
     task add_subcomponents: :environment do
       Part.where(base_material: "subcomponent").each do |parent|
         if parent.measured_status
@@ -104,7 +104,7 @@ unless Rails.env.production?
       puts "#{Subcomponent.count} part relationships defined"
     end
 
-    desc "Create sample quality projects (create sample parts before)"
+    desc "Create sample quality projects (define sample part relationships before)"
     task add_quality_projects: :environment do
       Part.top_parts.each do |part|
         project = QualityProject.new
