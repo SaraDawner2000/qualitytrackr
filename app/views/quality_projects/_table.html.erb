@@ -1,0 +1,44 @@
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th scope="col">
+                <%= sort_link(@q, :id, "Quality project") %>
+            </th>
+            <th scope="col">
+                <%= sort_link(@q, :customer, "Customer") %>
+            </th>                    
+            <th scope="col">
+                <%= sort_link(@q, :part_part_number, "Part number") %>
+            </th>
+            <th scope="col">
+                <%= sort_link(@q, :part_revision, "Part revision") %>
+            </th>
+            <th scope="col">
+                <%= sort_link(@q, :customer_request, "Customer request") %>
+            </th>
+            <th scope="col">
+                <%= sort_link(@q, :inspection_plan, "Inspection plan") %>
+            </th>
+            <th scope="col">
+                <%= sort_link(@q, :assembled_record, "Assembled record") %>
+            </th>
+            <th scope="col">
+                <%= sort_link(@q, :customer_approval, "Customer approval") %>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <% quality_projects.each do |quality_project| %>
+            <tr>
+                <td><%= quality_project.id %></td>
+                <td><%= quality_project.customer %></td>
+                <td><%= quality_project.part.part_number %></td>
+                <td><%= quality_project.part.revision %></td>
+                <td><%= quality_project.customer_request %></td>
+                <td><%= quality_project.inspection_plan %></td>
+                <td><%= quality_project.assembled_record %></td>
+                <td><%= quality_project.customer_approval %></td>
+            </tr>
+        <% end %>
+    </tbody>
+</table>
