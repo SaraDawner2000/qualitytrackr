@@ -1,0 +1,41 @@
+<td><%= quality_project.id %></td>
+<td><%= quality_project.customer %></td>
+<td><%= quality_project.part.part_number %></td>
+<td><%= quality_project.part.revision %></td>
+
+<% if quality_project.customer_request == nil %>
+    <td>Not available</td>
+<% elsif quality_project.customer_request == "not_applicable" %>
+    <td>Not required</td>
+<% else %>
+    <td><%= quality_project.customer_request %></td>
+<% end %>
+
+<% if quality_project.inspection_plan == nil %>
+<td>Not available</td>
+<% elsif quality_project.report_approval == false%>
+<td>Requires approval</td>
+<% else %>
+<td class="text-success">Approved</td>
+<% end %>
+
+<% if quality_project.assembled_record == nil %>
+<td>Not available</td>
+<% elsif quality_project.record_approval == false%>
+<td>Requires approval</td>
+<% else %>
+<td class="text-success">Approved</td>
+<% end %>
+
+<% case quality_project.customer_approval %>
+<% when "not_ready" %>
+    <td>Not ready</td>
+<% when "ready" %>
+    <td>Ready for customer</td>
+<% when "sent" %>
+    <td>Sent to customer</td>
+<% when "approved" %>
+    <td class = "text-success">Approved</td>
+<% when "rejected" %>
+    <td class = "text-danger">Rejected</td>
+<% end %>

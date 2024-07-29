@@ -5,6 +5,7 @@ ruby "3.3.4"
 
 gem "awesome_print"
 gem "bootsnap", require: false
+gem "binding_of_caller"
 gem "devise"
 gem "dotenv-rails"
 gem "htmlbeautifier"
