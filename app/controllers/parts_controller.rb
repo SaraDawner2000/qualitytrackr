@@ -3,9 +3,8 @@ class PartsController < ApplicationController
 
   # GET /parts or /parts.json
   def index
-    @parts = Part.all
     @q = Part.ransack(params[:q])
-    @parts = @q.result
+    @parts = @q.result.page(params[:page])
   end
 
   # GET /parts/1 or /parts/1.json
