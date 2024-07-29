@@ -79,19 +79,21 @@ unless Rails.env.production?
       puts "#{Part.count} parts created"
     end
 
+
+
     desc "Define random relationships between parts (create sample parts before)"
     task add_subcomponents: :environment do
-      Part.where(base_material: "subcomponent").each do |parent|
+      Part.top_parts_with_subcomponents.each do |parent|
         if parent.measured_status
-          possible_subcomponents = Part.top_parts_with_subcomponents.where(measured_status: true).sample(rand(1..4))
-          possible_subcomponents.each do |child|
+          children = Part.single_or_child_parts.where(measured_status: true).sample(rand(1..4))
+          children.each do |child|
             Subcomponent.create(
               child_id: child.id,
               parent_id: parent.id
             )
           end
         else
-          possible_subcomponents = Part.top_parts_with_subcomponents.sample(rand(1..4))
+          possible_subcomponents = Part.single_or_child_parts.sample(rand(1..4))
           possible_subcomponents.each do |child|
             Subcomponent.create(
               child_id: child.id,
