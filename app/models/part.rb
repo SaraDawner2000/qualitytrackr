@@ -14,7 +14,7 @@ class Part < ApplicationRecord
   scope :subcomponents, -> { where(id: Subcomponent.pluck(:child_id).uniq) }
 
   def self.ransackable_attributes(auth_object = nil)
-    ["part_number"]
+    ["part_number", "revision"]
   end
 
   def self.ransackable_associations(auth_object = nil)

@@ -30,15 +30,9 @@
     <tbody>
         <% quality_projects.each do |quality_project| %>
             <tr>
-                <td><%= quality_project.id %></td>
-                <td><%= quality_project.customer %></td>
-                <td><%= quality_project.part.part_number %></td>
-                <td><%= quality_project.part.revision %></td>
-                <td><%= quality_project.customer_request %></td>
-                <td><%= quality_project.inspection_plan %></td>
-                <td><%= quality_project.assembled_record %></td>
-                <td><%= quality_project.customer_approval %></td>
+                <%= render "table_field", quality_project: quality_project %>
             </tr>
         <% end %>
+        
     </tbody>
 </table>

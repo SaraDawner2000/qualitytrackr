@@ -3,9 +3,8 @@ class QualityProjectsController < ApplicationController
 
   # GET /quality_projects or /quality_projects.json
   def index
-    @quality_projects = QualityProject.all
     @q = QualityProject.ransack(params[:q])
-    @quality_projects = @q.result
+    @quality_projects = @q.result.page(params[:page])
   end
 
   # GET /quality_projects/1 or /quality_projects/1.json
