@@ -29,4 +29,18 @@
     
     <%= yield %>
   </body>
+  <script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const customerSelector = document.getElementById("customer_selector");
+    const mctractorField = document.getElementById("mctractor_field");
+    const sparkyField = document.getElementById("sparky_field");
+
+    customerSelector.addEventListener("change", function() {
+      const selectedValue = this.value;
+
+      mctractorField.style.display = selectedValue === "mctractor" ? "block" : "none";
+      sparkyField.style.display = selectedValue === "sparky" ? "block" : "none";
+    });
+  });
+</script>
 </html>
