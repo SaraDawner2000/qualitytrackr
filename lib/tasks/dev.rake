@@ -113,7 +113,7 @@ unless Rails.env.production?
 
         project.part_id = part.id
 
-        project.customer = QualityProject.customers.sample
+        project.customer = ["sparky", "mctractor"].sample
 
         if project.customer == "mctractor" && rand < 0.8
           project.customer_request = ["NH", "K", "B", "GI"].sample + Faker::Number.number(digits: 12).to_s
