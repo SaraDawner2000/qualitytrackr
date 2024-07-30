@@ -24,6 +24,8 @@ class PartsController < ApplicationController
   def create
     @part = Part.new(part_params)
 
+    # debugger
+
     respond_to do |format|
       if @part.save
         format.html { redirect_to new_quality_project_url(part_id: @part.id), notice: "Part was successfully created." }
@@ -55,6 +57,13 @@ class PartsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to parts_url, notice: "Part was successfully destroyed." }
       format.json { head :no_content }
+    end
+  end
+
+  def child_create
+    @part = Part.new(part_params)
+    if @part.save
+      redirect_to
     end
   end
 
