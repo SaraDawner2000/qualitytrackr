@@ -14,6 +14,7 @@ class QualityProjectsController < ApplicationController
   # GET /quality_projects/new
   def new
     @quality_project = QualityProject.new
+    @part_id = params[:part_id]
   end
 
   # GET /quality_projects/1/edit
@@ -29,7 +30,7 @@ class QualityProjectsController < ApplicationController
         format.html { redirect_to quality_project_url(@quality_project), notice: "Quality project was successfully created." }
         format.json { render :show, status: :created, location: @quality_project }
       else
-        format.html { render :new, status: :unprocessable_entity }
+        format.html { render new_quality_project_url(part_id: @part_id), status: :unprocessable_entity }
         format.json { render json: @quality_project.errors, status: :unprocessable_entity }
       end
     end
