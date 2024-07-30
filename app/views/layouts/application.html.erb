@@ -30,17 +30,28 @@
     <%= yield %>
   </body>
   <script>
-  document.addEventListener("DOMContentLoaded", function() {
-    const customerSelector = document.getElementById("customer_selector");
-    const mctractorField = document.getElementById("mctractor_field");
-    const sparkyField = document.getElementById("sparky_field");
+    document.addEventListener("DOMContentLoaded", function() {
+      const customerSelector = document.getElementById("customer_selector");
+      const mctractorField = document.getElementById("mctractor_field");
+      const sparkyField = document.getElementById("sparky_field");
+      const sparkyCustomerRequest = document.getElementById("sparky_customer_request");
+      const sparkyCustomerField = document.getElementById("sparky_customer_field");
 
-    customerSelector.addEventListener("change", function() {
-      const selectedValue = this.value;
+      customerSelector.addEventListener("change", function() {
+        const selectedValue = this.value;
 
-      mctractorField.style.display = selectedValue === "mctractor" ? "block" : "none";
-      sparkyField.style.display = selectedValue === "sparky" ? "block" : "none";
+         if (selectedValue === "mctractor") {
+            mctractorField.style.display = "block";
+            sparkyField.style.display = "none";
+            sparkyCustomerRequest.removeAttribute("name");
+            sparkyCustomerField.removeAttribute("name");
+          } else {
+            mctractorField.style.display = "none";
+            sparkyField.style.display = "block";
+            sparkyCustomerRequest.setAttribute("name", "quality_project[customer_request]");
+            sparkyCustomerField.setAttribute("name", "quality_project[customer_request]");
+          }
+      });
     });
-  });
-</script>
+  </script>
 </html>

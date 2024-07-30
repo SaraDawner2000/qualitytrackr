@@ -11,7 +11,7 @@
     </div>
   <% end %>
 
-
+  <div>
    <%= form.label :field_type, "Customer", style: "display: block" %>
     <%= form.select :field_type, [["Sparky", "sparky"], ["McTractor", "mctractor"]], { prompt: "Select Customer" }, { id: "customer_selector" } %>
   </div>
@@ -19,10 +19,12 @@
   <div id="mctractor_field" style="display: none">
     <%= form.label :customer_request, style: "display: block" %>
     <%= form.text_field :customer_request %>
+    <%= form.hidden_field :customer, value: "mctractor" %>
   </div>
 
   <div id="sparky_field" style="display: none">
-    <%= form.hidden_field :customer_request, value: "not_applicable" %>
+    <%= form.hidden_field :customer_request, value: "not_applicable", id: "sparky_customer_request" %>
+    <%= form.hidden_field :customer, value: "sparky", id: "sparky_customer_field" %>
   </div>
 
   <div>
