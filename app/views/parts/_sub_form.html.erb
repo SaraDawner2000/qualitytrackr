@@ -1,0 +1,38 @@
+<%= form_with(model: part) do |form| %>
+  <% if part.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(part.errors.count, "error") %> prohibited this part from being saved:</h2>
+
+      <ul>
+        <% part.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :part_number, style: "display: block" %>
+    <%= form.text_field :part_number %>
+  </div>
+
+  <div>
+    <%= form.label :revision, style: "display: block" %>
+    <%= form.text_field :revision %>
+  </div>
+
+  <div>
+    <%= form.label :job, style: "display: block" %>
+    <%= form.text_field :job %>
+  </div>
+
+  <div>
+    <%= form.label :drawing, style: "display: block" %>
+    <%= form.text_field :drawing %>
+  </div>
+
+  <div>
+    <%= form.label :finish, style: "display: block" %>
+    <%= form.text_field :finish %>
+  </div>
+<% end %>

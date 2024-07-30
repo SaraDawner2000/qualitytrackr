@@ -1,3 +1,29 @@
+<script>
+    document.addEventListener("ready turbolinks:load", function() {
+      const customerSelector = document.getElementById("customer_selector");
+      const mctractorField = document.getElementById("mctractor_field");
+      const sparkyField = document.getElementById("sparky_field");
+      const sparkyCustomerRequest = document.getElementById("sparky_customer_request");
+      const sparkyCustomerField = document.getElementById("sparky_customer_field");
+
+      customerSelector.addEventListener("change", function() {
+        const selectedValue = this.value;
+
+         if (selectedValue === "mctractor") {
+            mctractorField.style.display = "block";
+            sparkyField.style.display = "none";
+            sparkyCustomerRequest.removeAttribute("name");
+            sparkyCustomerField.removeAttribute("name");
+          } else {
+            mctractorField.style.display = "none";
+            sparkyField.style.display = "block";
+            sparkyCustomerRequest.setAttribute("name", "quality_project[customer_request]");
+            sparkyCustomerField.setAttribute("name", "quality_project[customer]");
+          }
+      });
+    });
+  </script>
+
 <%= form_with(model: quality_project) do |form| %>
   <% if quality_project.errors.any? %>
     <div style="color: red">
@@ -38,5 +64,6 @@
     <%= form.submit %>
   </div>
 <% end %>
+
 
 

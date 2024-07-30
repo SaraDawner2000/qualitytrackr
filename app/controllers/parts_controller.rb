@@ -66,12 +66,13 @@ class PartsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def part_params
-      params.require(:part).permit(:part_number, :revision, :job, :drawing, :base_material, :finish, :measured_status)
+      params.require(:part).permit(:part_number, :revision, :job, :drawing, :base_material, :finish, :measured_status, :subcomponents)
     end
 
     def destroy_duds
       Part.top_parts.each do |part|
         unless part.quality_project
+          part.children.destroy_all
           part.destroy
         end
       end

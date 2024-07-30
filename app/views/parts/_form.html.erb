@@ -1,3 +1,27 @@
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const baseSelector = document.getElementById("base_selector");
+      const baseMaterialField = document.getElementById("base_material_field");
+      const subcomponentField = document.getElementById("subcomponent_field");
+      // const baseField = document.getElementById("base_field");
+
+      baseSelector.addEventListener("change", function() {
+        const selectedValue = this.value;
+
+         if (selectedValue === "no") {
+            baseMaterialField.style.display = "block";
+            subcomponentField.style.display = "none";
+            // baseField.removeAttribute("name");
+          } else {
+            baseMaterialField.style.display = "none";
+            subcomponentField.style.display = "block";
+            // baseField.setAttribute("name", "part[base_material]");
+          }
+      });
+    });
+  </script>
+
+
 <%= form_with(model: part) do |form| %>
   <% if part.errors.any? %>
     <div style="color: red">
@@ -30,16 +54,21 @@
     <%= form.label :drawing, style: "display: block" %>
     <%= form.text_field :drawing %>
   </div>
-  <%= link_to part,
-      method: :update,
-      class: "btn btn-link btn-sm text-muted",
-      remote: true do %>
-      part includes subcomponents?
-  <% end %>
 
   <div>
+   <%= form.label :field_type, "Does the part have subcomponents?", style: "display: block" %>
+    <%= form.select :field_type, [["Yes", "yes"], ["No", "no"]], { prompt: "" }, { id: "base_selector" } %>
+  </div>
+
+  <div id="base_material_field" style="display: none">
     <%= form.label :base_material, style: "display: block" %>
     <%= form.text_field :base_material %>
+  </div>
+
+  <div id="subcomponent_field" style="display: none">
+    <%# render "new_child_modal", part: part %>
+    <h3>subcomponents go here</h3>
+    <%= form.hidden_field :base_material, value:"subcomponent", id: "base_field" %>
   </div>
 
   <div>
@@ -52,7 +81,13 @@
     <%= form.check_box :measured_status %>
   </div>
 
+  <input type="hidden" name="subcomponents[]" type="string" value='4'>
+  <input type="hidden" name="subcomponents[]" type="string" value='6'>
+  <input type="hidden" name="subcomponents[]" type="string" value='3'>
+
   <div>
-    <%= form.submit %>
+    <%= form.submit%>
   </div>
 <% end %>
+
+
