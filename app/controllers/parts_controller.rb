@@ -24,15 +24,40 @@ class PartsController < ApplicationController
   def create
     @part = Part.new(part_params)
 
-    # debugger
 
     respond_to do |format|
       if @part.save
+        child_hash = params[:subcomponents].permit!
+        if child_hash
+          create_children(@part, child_hash)
+        end
         format.html { redirect_to new_quality_project_url(part_id: @part.id), notice: "Part was successfully created." }
         format.json { render :show, status: :created, location: @part }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @part.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def create_children(parent_part, child_hash)
+    child_hash.each do |key, child_params|
+      delete_empty_params child_params
+      debugger
+      child_part = Part.new(child_params)
+      if child_part.save
+        Subcomponent.create(
+          parent_id: parent_part.id,
+          child_id: child_part.id
+        )
+      end
+    end
+  end
+
+  def delete_empty_params(params)
+    params.each do |key, value|
+      if value == ""
+        params.delete(key)
       end
     end
   end
@@ -60,13 +85,6 @@ class PartsController < ApplicationController
     end
   end
 
-  def child_create
-    @part = Part.new(part_params)
-    if @part.save
-      redirect_to
-    end
-  end
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_part
@@ -75,7 +93,7 @@ class PartsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def part_params
-      params.require(:part).permit(:part_number, :revision, :job, :drawing, :base_material, :finish, :measured_status, :subcomponents)
+      params.require(:part).permit(:part_number, :revision, :job, :drawing, :base_material, :finish, :measured_status)
     end
 
     def destroy_duds

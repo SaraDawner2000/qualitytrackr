@@ -24,6 +24,8 @@
       baseSelector.addEventListener("change", updateFieldVisibility);
     }
 
+    let eventNotTriggered = true;
+    if (eventNotTriggered) {
     addChildFieldButton.addEventListener("click", function() {
       const newChildField = document.createElement("div");
       newChildField.classList.add("child-field", "d-flex", "small");
@@ -31,21 +33,23 @@
 
       newChildField.innerHTML = `
         <label for="child${childFieldCount}_part_number">Part number</label>
-        <input id="child${childFieldCount}_part_number" type="text" name="subcomponents[child${childFieldCount}][part_number][]">
+        <input id="child${childFieldCount}_part_number" type="text" name="subcomponents[child${childFieldCount}][part_number]">
         <label for="child${childFieldCount}_revision">Revision</label>
-        <input id="child${childFieldCount}_revision" type="text" name="subcomponents[child${childFieldCount}][revision][]">
+        <input id="child${childFieldCount}_revision" type="text" name="subcomponents[child${childFieldCount}][revision]">
         <label for="child${childFieldCount}_drawing">Drawing</label>
-        <input id="child${childFieldCount}_drawing" type="text" name="subcomponents[child${childFieldCount}][drawing][]">
+        <input id="child${childFieldCount}_drawing" type="text" name="subcomponents[child${childFieldCount}][drawing]">
         <label for="child${childFieldCount}_base_material">Base material</label>
-        <input id="child${childFieldCount}_base_material" type="text" name="subcomponents[child${childFieldCount}][base_material][]">
+        <input id="child${childFieldCount}_base_material" type="text" name="subcomponents[child${childFieldCount}][base_material]">
         <label for="child${childFieldCount}_finish">Finish</label>
-        <input id="child${childFieldCount}_finish" type="text" name="subcomponents[child${childFieldCount}][finish][]">
+        <input id="child${childFieldCount}_finish" type="text" name="subcomponents[child${childFieldCount}][finish]">
         <button type="button" class="remove-child-field btn btn-danger">Remove</button>
       `;
 
       childFieldsContainer.appendChild(newChildField);
       childFieldCount++;
     });
+    eventNotTriggered = false;
+    }
 
     childFieldsContainer.addEventListener("click", function(event) {
       if (event.target.classList.contains("remove-child-field")) {
