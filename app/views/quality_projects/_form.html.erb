@@ -91,14 +91,14 @@
     <%= form.text_field :purchase_order %>
   </div>
   
-  <% unless @quality_project %>
+  <% if form.object.new_record? %>
     <% @part_id = part_id %>
   <% else%>
     <% @part_id = quality_project.part_id%>
   <% end %>
   <%= form.hidden_field :part_id, value: @part_id %>
   
-  <% @part = Part.find(@quality_project.part_id)%>
+  <% @part = Part.find(@part_id)%>
   <%= render "part_list", part: @part %>
 
   <div>

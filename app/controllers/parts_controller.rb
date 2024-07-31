@@ -25,7 +25,6 @@ class PartsController < ApplicationController
   # POST /parts or /parts.json
   def create
     @part = Part.new(part_params)
-
     respond_to do |format|
       if @part.save
         child_hash = params[:subcomponents]
