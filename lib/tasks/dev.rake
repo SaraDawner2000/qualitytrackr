@@ -44,7 +44,7 @@ unless Rails.env.production?
     task add_parts: :environment do
       rand(160..300).times do
         part = Part.new
-        part.part_number = Faker::Number.number(digits: 10).to_s
+        part.part_number = Faker::Number.number(digits: 8).to_s
         part.revision = ["A", "B", "C", "D", "E"].sample
 
         if rand < 0.5
@@ -113,13 +113,13 @@ unless Rails.env.production?
 
         project.part_id = part.id
 
-        project.customer = ["CNH", "S&C"].sample
+        project.customer = ["sparky", "mctractor"].sample
 
-        if project.customer == "CNH" && rand < 0.8
-          project.customer_request = ["NH", "K", "B", "GI"].sample + Faker::Number.number(digits: 16).to_s
+        if project.customer == "mctractor" && rand < 0.8
+          project.customer_request = ["NH", "K", "B", "GI"].sample + Faker::Number.number(digits: 12).to_s
         end
 
-        if project.customer == "S&C"
+        if project.customer == "sparky"
           project.customer_request = "not_applicable"
         end
 

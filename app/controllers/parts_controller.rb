@@ -1,6 +1,6 @@
 class PartsController < ApplicationController
   before_action :set_part, only: %i[ show edit update destroy ]
-
+  before_action :destroy_duds, only: %i[ index ]
   # GET /parts or /parts.json
   def index
     @q = Part.ransack(params[:q])
@@ -26,7 +26,7 @@ class PartsController < ApplicationController
 
     respond_to do |format|
       if @part.save
-        format.html { redirect_to part_url(@part), notice: "Part was successfully created." }
+        format.html { redirect_to new_quality_project_url(part_id: @part.id), notice: "Part was successfully created." }
         format.json { render :show, status: :created, location: @part }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -67,5 +67,13 @@ class PartsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def part_params
       params.require(:part).permit(:part_number, :revision, :job, :drawing, :base_material, :finish, :measured_status)
+    end
+
+    def destroy_duds
+      Part.top_parts.each do |part|
+        unless part.quality_project
+          part.destroy
+        end
+      end
     end
 end

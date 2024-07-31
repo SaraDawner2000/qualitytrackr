@@ -30,6 +30,12 @@
     <%= form.label :drawing, style: "display: block" %>
     <%= form.text_field :drawing %>
   </div>
+  <%= link_to part,
+      method: :update,
+      class: "btn btn-link btn-sm text-muted",
+      remote: true do %>
+      part includes subcomponents?
+  <% end %>
 
   <div>
     <%= form.label :base_material, style: "display: block" %>

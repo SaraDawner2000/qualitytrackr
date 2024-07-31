@@ -1,8 +1,11 @@
-<h1>New part</h1>
-
+<h1>New quality project</h1>
+<h2>Step 1</h2>
+<h3>Add part</h3>
 <%= render "form", part: @part %>
 
 <br>
+
+<%= render "new_child_modal", part: @part %>
 
 <div>
   <%= link_to "Back to parts", parts_path %>

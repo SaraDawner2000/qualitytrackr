@@ -27,11 +27,15 @@
             </th>
         </tr>
     </thead>
-    <tbody>
-        <% parts.top_parts.each do |part| %>
-            <tr>
-                <%= render "table_field", part: part %>
-            </tr>
-        <% end %>
-    </tbody>
+    <% parts.top_parts.each do |part| %>
+        <tbody>
+            <%= render "table_field", part: part %>
+
+            <% unless part.children.empty? %>
+                <% part.child_parts.each do |child| %>
+                    <%= render "child_field", part: child %>
+                <% end %>
+            <% end %>
+        </tbody>
+    <% end %>
 </table>

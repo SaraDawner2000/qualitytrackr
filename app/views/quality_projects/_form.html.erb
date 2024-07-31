@@ -12,11 +12,6 @@
   <% end %>
 
   <div>
-    <%= form.label :part_id, style: "display: block" %>
-    <%= form.text_field :part_id %>
-  </div>
-
-  <div>
     <%= form.label :customer, style: "display: block" %>
     <%= form.text_field :customer %>
   </div>
@@ -30,26 +25,8 @@
     <%= form.label :purchase_order, style: "display: block" %>
     <%= form.text_field :purchase_order %>
   </div>
-
-  <div>
-    <%= form.label :inspection_plan, style: "display: block" %>
-    <%= form.text_field :inspection_plan %>
-  </div>
-
-  <div>
-    <%= form.label :report_approval, style: "display: block" %>
-    <%= form.check_box :report_approval %>
-  </div>
-
-  <div>
-    <%= form.label :assembled_record, style: "display: block" %>
-    <%= form.check_box :assembled_record %>
-  </div>
-
-  <div>
-    <%= form.label :customer_approval, style: "display: block" %>
-    <%= form.check_box :customer_approval %>
-  </div>
+  
+  <%= form.hidden_field :part_id, value: part_id %>
 
   <div>
     <%= form.submit %>
