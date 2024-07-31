@@ -1,0 +1,15 @@
+<h3>Part associated with this project: </h3>
+<ul>
+    <li><%= link_to part.part_number, part_path(part) %></li>
+    <% if part.children != []%>
+    <li>
+        <span>children: </span>
+        <ul class="small">
+            <% part.child_parts.each do |child| %>
+                <li><%= link_to child.part_number, part_path(child) %></li>
+            <% end %>
+
+        </ul>
+    </li>
+    <% end %>
+</ul>

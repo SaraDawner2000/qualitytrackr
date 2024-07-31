@@ -1,28 +1,48 @@
-<script>
-    document.addEventListener("turbo:load", function() {
-      const customerSelector = document.getElementById("customer_selector");
-      const mctractorField = document.getElementById("mctractor_field");
-      const sparkyField = document.getElementById("sparky_field");
-      const sparkyCustomerRequest = document.getElementById("sparky_customer_request");
-      const sparkyCustomerField = document.getElementById("sparky_customer_field");
+<!--<script>
+  document.addEventListener("turbo:load", function() {
+    const customerSelector = document.getElementById("customer_selector");
+    const mctractorField = document.getElementById("mctractor_field");
+    const sparkyField = document.getElementById("sparky_field");
+    const sparkyCustomerRequest = document.getElementById("sparky_customer_request");
+    const sparkyCustomerField = document.getElementById("sparky_customer_field");
+    const hiddenCustomerRequest = document.getElementById("hidden_customer_field");
+    const hiddenCustomerField = document.getElementById("hidden_customer_request_fiel");
 
-      customerSelector.addEventListener("change", function() {
-        const selectedValue = this.value;
+    customerSelector.addEventListener("change", function() {
+      const selectedValue = this.value;
 
-         if (selectedValue === "mctractor") {
-            mctractorField.style.display = "block";
-            sparkyField.style.display = "none";
-            sparkyCustomerRequest.removeAttribute("name");
-            sparkyCustomerField.removeAttribute("name");
-          } else {
-            mctractorField.style.display = "none";
-            sparkyField.style.display = "block";
-            sparkyCustomerRequest.setAttribute("name", "quality_project[customer_request]");
-            sparkyCustomerField.setAttribute("name", "quality_project[customer]");
-          }
-      });
+      if (selectedValue === "mctractor") {
+        mctractorField.style.display = "block";
+        sparkyField.style.display = "none";
+        sparkyCustomerRequest.removeAttribute("name");
+        sparkyCustomerField.removeAttribute("name");
+        hiddenCustomerRequest.removeAttribute("name");
+        hiddenCustomerField.removeAttribute("name");
+        mctractorCustomerRequest.setAttribute("name");
+        mctractorCustomerField.setAttribute("name");
+      } else if (selectedValue === "sparky") {
+        mctractorField.style.display = "none";
+        sparkyField.style.display = "block";
+        sparkyCustomerRequest.setAttribute("name", "quality_project[customer_request]");
+        sparkyCustomerField.setAttribute("name", "quality_project[customer]");
+        hiddenCustomerRequest.removeAttribute("name");
+        hiddenCustomerField.removeAttribute("name");
+        mctractorCustomerRequest.removeAttribute("name");
+        mctractorCustomerField.removeAttribute("name");
+      } else {
+        // Handle the case where no option is selected
+        mctractorField.style.display = "none";
+        sparkyField.style.display = "none";
+        sparkyCustomerRequest.removeAttribute("name");
+        sparkyCustomerField.removeAttribute("name");
+        mctractorCustomerRequest.removeAttribute("name");
+        mctractorCustomerField.removeAttribute("name");
+        document.querySelector('input[name="quality_project[customer]"]').value = ""; // Set empty string
+        document.querySelector('input[name="quality_project[customer_request]"]').value = ""; // Set empty string
+      }
     });
-  </script>
+  });
+</script>-->
 
 <%= form_with(model: quality_project) do |form| %>
   <% if quality_project.errors.any? %>
@@ -36,13 +56,19 @@
       </ul>
     </div>
   <% end %>
-
+  <% if form.object.new_record? %>
   <div>
-   <%= form.label :field_type, "Customer", style: "display: block" %>
-    <%= form.select :field_type, [["Sparky", "sparky"], ["McTractor", "mctractor"]], { prompt: "Select Customer" }, { id: "customer_selector" } %>
+    <%= form.label :customer, "Customer", style: "display: block" %>
+    <%= form.select :customer, [["Sparky", "sparky"], ["McTractor", "mctractor"]], { prompt: "Select Customer" }, { id: "customer_selector" } %>
   </div>
+  <% else %>
+    <div>
+    <%= form.label :customer, "Customer", style: "display: block" %>
+    <%= form.text_field :customer,{ disabled:true } %>
+  </div>
+  <% end %>
 
-  <div id="mctractor_field" style="display: none">
+  <!--<div id="mctractor_field" style="display: none">
     <%= form.label :customer_request, style: "display: block" %>
     <%= form.text_field :customer_request %>
     <%= form.hidden_field :customer, value: "mctractor" %>
@@ -53,17 +79,54 @@
     <%= form.hidden_field :customer, value: "sparky", id: "sparky_customer_field" %>
   </div>
 
+  <%= form.hidden_field :customer, value: "", id: "hidden_customer_field" %>
+  <%= form.hidden_field :customer_request, value: "", id: "hidden_customer_request_field" %>-->
+  <div>
+  <%= form.label :customer_request, style: "display: block" %>
+  <%= form.text_field :customer_request %>
+  </div>
+
   <div>
     <%= form.label :purchase_order, style: "display: block" %>
     <%= form.text_field :purchase_order %>
   </div>
+
+
+  <% unless form.object.new_record? %>
+    <div class = "d-flex">
+      <%= form.label :inspection_plan, style: "display: block" %>
+      <%= form.text_field :inspection_plan %>
+
+      <%= form.label :report_approval, style: "display: block" %>
+      <%= form.check_box :report_approval %>
+    </div>
+
+    <div class = "d-flex">
+      <%= form.label :assembled_record, style: "display: block" %>
+      <%= form.text_field :assembled_record %>
+
+      <%= form.label :record_approval, style: "display: block" %>
+      <%= form.check_box :record_approval %>
+    </div>
+
+    <div class = "d-flex">
+      <%= form.label :customer_approval, style: "display: block" %>
+      <%= form.select :approval_option, QualityProject.customer_options.map { |status| [status, status] } %>
+    </div>
+  <% end %>
+
   
-  <%= form.hidden_field :part_id, value: part_id %>
+  <% if form.object.new_record? %>
+    <% @part_id = part_id %>
+  <% else%>
+    <% @part_id = quality_project.part_id%>
+  <% end %>
+  <%= form.hidden_field :part_id, value: @part_id %>
+  
+  <% @part = Part.find(@part_id)%>
+  <%= render "part_list", part: @part %>
 
   <div>
     <%= form.submit %>
   </div>
 <% end %>
-
-
-

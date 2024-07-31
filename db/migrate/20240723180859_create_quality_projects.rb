@@ -1,5 +1,8 @@
 class CreateQualityProjects < ActiveRecord::Migration[7.0]
   def change
+    create_enum :customer_options, ["unready", "ready", "sent", "approved", "rejected"]
+    create_enum :customers, ["sparky", "mctractor"]
+
     create_table :quality_projects do |t|
       t.references :part, null: false, foreign_key: true
       t.string :customer, null: false
@@ -13,9 +16,8 @@ class CreateQualityProjects < ActiveRecord::Migration[7.0]
 
       t.timestamps
     end
-    execute <<-SQL
-      CREATE TYPE customer_options AS ENUM ('not_ready', 'ready', 'sent', 'approved', 'rejected');
-    SQL
-    add_column :quality_projects, :customer_approval, :customer_options
+
+
+    add_column :quality_projects, :customer_approval, :customer_options, default: "unready"
   end
 end
