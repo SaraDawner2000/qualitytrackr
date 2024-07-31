@@ -1,5 +1,6 @@
 class Part < ApplicationRecord
   validates :part_number, uniqueness: { scope: :revision, message: "part number of this revision already exists." }
+  validates :part_number, :revision, presence: true
 
   has_one :quality_project
 

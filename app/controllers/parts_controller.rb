@@ -1,4 +1,6 @@
 class PartsController < ApplicationController
+  include Cleanable
+
   before_action :set_part, only: %i[ show edit update destroy ]
   before_action :destroy_duds, only: %i[ index ]
   # GET /parts or /parts.json
@@ -52,10 +54,6 @@ class PartsController < ApplicationController
         )
       end
     end
-  end
-
-  def delete_empty_params(params)
-    params.delete_if { |key, value| value == "" }
   end
 
   # PATCH/PUT /parts/1 or /parts/1.json
