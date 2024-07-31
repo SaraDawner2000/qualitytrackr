@@ -32,11 +32,11 @@
     </thead>
     <% parts.top_parts.each do |part| %>
         <tbody>
-            <%= render "table_field", part: part %>
+            <%= render "parts/table_field", part: part %>
 
             <% unless part.children.empty? %>
                 <% part.child_parts.each do |child| %>
-                    <%= render "child_field", part: child %>
+                    <%= render "parts/child_field", part: child %>
                 <% end %>
             <% end %>
         </tbody>
