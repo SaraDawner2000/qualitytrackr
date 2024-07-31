@@ -24,13 +24,40 @@ class PartsController < ApplicationController
   def create
     @part = Part.new(part_params)
 
+
     respond_to do |format|
       if @part.save
+        child_hash = params[:subcomponents].permit!
+        if child_hash
+          create_children(@part, child_hash)
+        end
         format.html { redirect_to new_quality_project_url(part_id: @part.id), notice: "Part was successfully created." }
         format.json { render :show, status: :created, location: @part }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @part.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def create_children(parent_part, child_hash)
+    child_hash.each do |key, child_params|
+      delete_empty_params child_params
+      debugger
+      child_part = Part.new(child_params)
+      if child_part.save
+        Subcomponent.create(
+          parent_id: parent_part.id,
+          child_id: child_part.id
+        )
+      end
+    end
+  end
+
+  def delete_empty_params(params)
+    params.each do |key, value|
+      if value == ""
+        params.delete(key)
       end
     end
   end
@@ -72,6 +99,7 @@ class PartsController < ApplicationController
     def destroy_duds
       Part.top_parts.each do |part|
         unless part.quality_project
+          part.children.destroy_all
           part.destroy
         end
       end

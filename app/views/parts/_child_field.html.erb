@@ -1,6 +1,6 @@
 <tr class="small">
     <td></td>
-    <td><%= part.part_number %></td>
+    <td><%= link_to part.part_number, part_path(part) %></td>
     <td><%= part.revision %></td>
     <td><%= part.drawing %></td>
     <td>above</td>

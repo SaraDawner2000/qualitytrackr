@@ -54,6 +54,9 @@ GEM
     activerecord (7.0.8.4)
       activemodel (= 7.0.8.4)
       activesupport (= 7.0.8.4)
+    activerecord-postgres_enum (2.1.0)
+      activerecord (>= 5.2)
+      pg
     activestorage (7.0.8.4)
       actionpack (= 7.0.8.4)
       activejob (= 7.0.8.4)
@@ -385,6 +388,9 @@ GEM
       actionpack (>= 6.0.0)
       activejob (>= 6.0.0)
       railties (>= 6.0.0)
+    turbolinks (5.2.1)
+      turbolinks-source (~> 5.2)
+    turbolinks-source (5.2.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.5.0)
@@ -420,6 +426,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  activerecord-postgres_enum
   annotate
   awesome_print
   better_errors
@@ -455,6 +462,7 @@ DEPENDENCIES
   stimulus-rails
   table_print
   turbo-rails
+  turbolinks
   tzinfo-data
   web-console
   webdrivers

@@ -1,8 +1,71 @@
+<script>
+  document.addEventListener("turbo:load", function() {
+    const baseSelector = document.getElementById("base_selector");
+    const baseMaterialField = document.getElementById("base_material_field");
+    const subcomponentField = document.getElementById("subcomponent_field");
+    const childFieldsContainer = document.getElementById("child-fields-container");
+    const addChildFieldButton = document.getElementById("add-child-field");
+
+    let childFieldCount = 1;
+
+    function updateFieldVisibility() {
+      const selectedValue = baseSelector.value;
+
+      if (selectedValue === "no") {
+        baseMaterialField.style.display = "block";
+        subcomponentField.style.display = "none";
+      } else {
+        baseMaterialField.style.display = "none";
+        subcomponentField.style.display = "block";
+      }
+    }
+
+    if (baseSelector !== null) {
+      baseSelector.addEventListener("change", updateFieldVisibility);
+    }
+
+    let eventNotTriggered = true;
+    if (eventNotTriggered) {
+    addChildFieldButton.addEventListener("click", function() {
+      const newChildField = document.createElement("div");
+      newChildField.classList.add("child-field", "d-flex", "small");
+      newChildField.id = `child${childFieldCount}`;
+
+      newChildField.innerHTML = `
+        <label for="child${childFieldCount}_part_number">Part number</label>
+        <input id="child${childFieldCount}_part_number" type="text" name="subcomponents[child${childFieldCount}][part_number]">
+        <label for="child${childFieldCount}_revision">Revision</label>
+        <input id="child${childFieldCount}_revision" type="text" name="subcomponents[child${childFieldCount}][revision]">
+        <label for="child${childFieldCount}_drawing">Drawing</label>
+        <input id="child${childFieldCount}_drawing" type="text" name="subcomponents[child${childFieldCount}][drawing]">
+        <label for="child${childFieldCount}_base_material">Base material</label>
+        <input id="child${childFieldCount}_base_material" type="text" name="subcomponents[child${childFieldCount}][base_material]">
+        <label for="child${childFieldCount}_finish">Finish</label>
+        <input id="child${childFieldCount}_finish" type="text" name="subcomponents[child${childFieldCount}][finish]">
+        <button type="button" class="remove-child-field btn btn-danger">Remove</button>
+      `;
+
+      childFieldsContainer.appendChild(newChildField);
+      childFieldCount++;
+    });
+    eventNotTriggered = false;
+    }
+
+    childFieldsContainer.addEventListener("click", function(event) {
+      if (event.target.classList.contains("remove-child-field")) {
+        event.target.parentElement.remove();
+      }
+    });
+
+  });
+</script>
+
+
+
 <%= form_with(model: part) do |form| %>
   <% if part.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(part.errors.count, "error") %> prohibited this part from being saved:</h2>
-
       <ul>
         <% part.errors.each do |error| %>
           <li><%= error.full_message %></li>
@@ -30,18 +93,43 @@
     <%= form.label :drawing, style: "display: block" %>
     <%= form.text_field :drawing %>
   </div>
-  <%= link_to part,
-      method: :update,
-      class: "btn btn-link btn-sm text-muted",
-      remote: true do %>
-      part includes subcomponents?
-  <% end %>
+
+  <% if form.object.new_record? || part.base_material == nil %>
 
   <div>
+    <%= form.label :field_type, "Does the part have subcomponents?", style: "display: block" %>
+    <%= form.select :field_type, [["Yes", "yes"], ["No", "no"]], { prompt: "" }, { id: "base_selector" } %>
+  </div>
+
+  <div id="base_material_field" style="display: none">
     <%= form.label :base_material, style: "display: block" %>
     <%= form.text_field :base_material %>
   </div>
 
+  <div id="subcomponent_field" style="display: none">
+    <div id="child-fields-container">
+      <!-- Dynamic child fields will be inserted here -->
+    </div>
+    <button type="button" id="add-child-field" class="btn btn-primary">Add Component</button>
+  </div>
+  <% elsif part.base_material == "subcomponent" %>
+  <% part.child_parts.each do |child|%>
+  <div class="d-flex small">
+    <p>PN# <%= child.part_number %> Rev <%= child.revision%></p>
+  </div>
+  <% end %>
+  <div id="subcomponent_field">
+    <div id="child-fields-container">
+      <!-- Dynamic child fields will be inserted here -->
+    </div>
+    <button type="button" id="add-child-field" class="btn btn-primary">Add Component</button>
+  </div>
+  <% else %>
+  <div>
+    <%= form.label :base_material, style: "display: block" %>
+    <%= form.text_field :base_material %>
+  </div>
+  <% end %>
   <div>
     <%= form.label :finish, style: "display: block" %>
     <%= form.text_field :finish %>
@@ -56,3 +144,4 @@
     <%= form.submit %>
   </div>
 <% end %>
+

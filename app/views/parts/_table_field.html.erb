@@ -1,6 +1,6 @@
 <tr>
     <td><%= part.quality_project.customer %></td>
-<td><%= part.part_number %></td>
+<td><%= link_to part.part_number, part_path(part) %></td>
 <td><%= part.revision %></td>
 <td><%= part.drawing %></td>
 <td><%= part.quality_project.inspection_plan %></td>

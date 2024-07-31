@@ -1,3 +1,29 @@
+<script>
+    document.addEventListener("turbo:load", function() {
+      const customerSelector = document.getElementById("customer_selector");
+      const mctractorField = document.getElementById("mctractor_field");
+      const sparkyField = document.getElementById("sparky_field");
+      const sparkyCustomerRequest = document.getElementById("sparky_customer_request");
+      const sparkyCustomerField = document.getElementById("sparky_customer_field");
+
+      customerSelector.addEventListener("change", function() {
+        const selectedValue = this.value;
+
+         if (selectedValue === "mctractor") {
+            mctractorField.style.display = "block";
+            sparkyField.style.display = "none";
+            sparkyCustomerRequest.removeAttribute("name");
+            sparkyCustomerField.removeAttribute("name");
+          } else {
+            mctractorField.style.display = "none";
+            sparkyField.style.display = "block";
+            sparkyCustomerRequest.setAttribute("name", "quality_project[customer_request]");
+            sparkyCustomerField.setAttribute("name", "quality_project[customer]");
+          }
+      });
+    });
+  </script>
+
 <%= form_with(model: quality_project) do |form| %>
   <% if quality_project.errors.any? %>
     <div style="color: red">
@@ -12,13 +38,19 @@
   <% end %>
 
   <div>
-    <%= form.label :customer, style: "display: block" %>
-    <%= form.text_field :customer %>
+   <%= form.label :field_type, "Customer", style: "display: block" %>
+    <%= form.select :field_type, [["Sparky", "sparky"], ["McTractor", "mctractor"]], { prompt: "Select Customer" }, { id: "customer_selector" } %>
   </div>
 
-  <div>
+  <div id="mctractor_field" style="display: none">
     <%= form.label :customer_request, style: "display: block" %>
     <%= form.text_field :customer_request %>
+    <%= form.hidden_field :customer, value: "mctractor" %>
+  </div>
+
+  <div id="sparky_field" style="display: none">
+    <%= form.hidden_field :customer_request, value: "not_applicable", id: "sparky_customer_request" %>
+    <%= form.hidden_field :customer, value: "sparky", id: "sparky_customer_field" %>
   </div>
 
   <div>
@@ -32,3 +64,6 @@
     <%= form.submit %>
   </div>
 <% end %>
+
+
+
