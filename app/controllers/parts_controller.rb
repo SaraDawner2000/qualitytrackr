@@ -1,6 +1,8 @@
 class PartsController < ApplicationController
-  before_action :set_part, only: %i[ show edit update destroy ]
+  include Cleanable
 
+  before_action :set_part, only: %i[ show edit update destroy ]
+  before_action :destroy_duds, only: %i[ index ]
   # GET /parts or /parts.json
   def index
     @q = Part.ransack(params[:q])
@@ -23,14 +25,32 @@ class PartsController < ApplicationController
   # POST /parts or /parts.json
   def create
     @part = Part.new(part_params)
-
     respond_to do |format|
       if @part.save
-        format.html { redirect_to part_url(@part), notice: "Part was successfully created." }
+        child_hash = params[:subcomponents]
+        if child_hash
+          create_children(@part, child_hash)
+        end
+        format.html { redirect_to new_quality_project_url(part_id: @part.id), notice: "Part was successfully created." }
         format.json { render :show, status: :created, location: @part }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @part.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def create_children(parent_part, child_hash)
+    child_hash.each do |key, child_params|
+      delete_empty_params child_params
+      permitted_child_params = child_params.permit(:part_number, :revision, :drawing, :base_material, :finish)
+
+      child_part = Part.new(permitted_child_params)
+      if child_part.save
+        Subcomponent.create(
+          parent_id: parent_part.id,
+          child_id: child_part.id
+        )
       end
     end
   end
@@ -66,6 +86,17 @@ class PartsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def part_params
-      params.require(:part).permit(:part_number, :revision, :job, :drawing, :base_material, :finish, :measured_status)
+      part_params = params.require(:part)
+      delete_empty_params part_params
+      part_params.permit(:part_number, :revision, :job, :drawing, :base_material, :finish, :measured_status)
+    end
+
+    def destroy_duds
+      Part.top_parts.each do |part|
+        unless part.quality_project
+          part.children.destroy_all
+          part.destroy
+        end
+      end
     end
 end

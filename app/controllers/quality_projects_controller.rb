@@ -1,4 +1,6 @@
 class QualityProjectsController < ApplicationController
+  include Cleanable
+
   before_action :set_quality_project, only: %i[ show edit update destroy ]
 
   # GET /quality_projects or /quality_projects.json
@@ -14,6 +16,7 @@ class QualityProjectsController < ApplicationController
   # GET /quality_projects/new
   def new
     @quality_project = QualityProject.new
+    @part_id = params[:part_id]
   end
 
   # GET /quality_projects/1/edit
@@ -29,7 +32,8 @@ class QualityProjectsController < ApplicationController
         format.html { redirect_to quality_project_url(@quality_project), notice: "Quality project was successfully created." }
         format.json { render :show, status: :created, location: @quality_project }
       else
-        format.html { render :new, status: :unprocessable_entity }
+        @part_id = @quality_project.part_id
+        format.html { render :new, locals: { part_id: @part_id }, status: :unprocessable_entity }
         format.json { render json: @quality_project.errors, status: :unprocessable_entity }
       end
     end
@@ -66,6 +70,8 @@ class QualityProjectsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def quality_project_params
-      params.require(:quality_project).permit(:part_id, :customer, :customer_request, :purchase_order, :inspection_plan, :report_approval, :assembled_record, :customer_approval)
+      quality_project_params = params.require(:quality_project)
+      delete_empty_params quality_project_params
+      quality_project_params.permit(:part_id, :customer, :customer_request, :purchase_order, :inspection_plan, :report_approval, :assembled_record, :customer_approval)
     end
 end

@@ -10,14 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_07_24_172121) do
+ActiveRecord::Schema[7.0].define(version: 2024_07_23_180859) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  # Custom types defined in this database.
-  # Note that some types may not work with other database engines. Be careful if changing database.
-  create_enum "customer_options", ["not_ready", "ready", "sent", "approved", "rejected"]
-  create_enum "role_options", ["quality_manager", "quality_admin", "qc_tech", "prod_manager"]
+  create_enum :customer_options, [
+    "unready",
+    "ready",
+    "sent",
+    "approved",
+    "rejected",
+  ], force: :cascade
+
+  create_enum :customers, [
+    "sparky",
+    "mctractor",
+  ], force: :cascade
+
+  create_enum :role_options, [
+    "quality_manager",
+    "quality_admin",
+    "qc_tech",
+    "prod_manager",
+  ], force: :cascade
 
   create_table "parts", force: :cascade do |t|
     t.string "part_number", null: false
@@ -43,7 +58,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_24_172121) do
     t.boolean "record_approval", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.enum "customer_approval", default: "not_ready", enum_type: "customer_options"
+    t.enum "customer_approval", default: "unready", enum_type: "customer_options"
     t.index ["part_id"], name: "index_quality_projects_on_part_id"
   end
 

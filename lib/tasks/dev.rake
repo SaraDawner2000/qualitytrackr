@@ -44,7 +44,7 @@ unless Rails.env.production?
     task add_parts: :environment do
       rand(160..300).times do
         part = Part.new
-        part.part_number = Faker::Number.number(digits: 10).to_s
+        part.part_number = Faker::Number.number(digits: 8).to_s
         part.revision = ["A", "B", "C", "D", "E"].sample
 
         if rand < 0.5
@@ -79,19 +79,21 @@ unless Rails.env.production?
       puts "#{Part.count} parts created"
     end
 
+
+
     desc "Define random relationships between parts (create sample parts before)"
     task add_subcomponents: :environment do
-      Part.where(base_material: "subcomponent").each do |parent|
+      Part.top_parts_with_subcomponents.each do |parent|
         if parent.measured_status
-          possible_subcomponents = Part.top_parts_with_subcomponents.where(measured_status: true).sample(rand(1..4))
-          possible_subcomponents.each do |child|
+          children = Part.single_or_child_parts.where(measured_status: true).sample(rand(1..4))
+          children.each do |child|
             Subcomponent.create(
               child_id: child.id,
               parent_id: parent.id
             )
           end
         else
-          possible_subcomponents = Part.top_parts_with_subcomponents.sample(rand(1..4))
+          possible_subcomponents = Part.single_or_child_parts.sample(rand(1..4))
           possible_subcomponents.each do |child|
             Subcomponent.create(
               child_id: child.id,
@@ -111,13 +113,13 @@ unless Rails.env.production?
 
         project.part_id = part.id
 
-        project.customer = ["CNH", "S&C"].sample
+        project.customer = ["sparky", "mctractor"].sample
 
-        if project.customer == "CNH" && rand < 0.8
-          project.customer_request = ["NH", "K", "B", "GI"].sample + Faker::Number.number(digits: 16).to_s
+        if project.customer == "mctractor" && rand < 0.8
+          project.customer_request = ["NH", "K", "B", "GI"].sample + Faker::Number.number(digits: 12).to_s
         end
 
-        if project.customer == "S&C"
+        if project.customer == "sparky"
           project.customer_request = "not_applicable"
         end
 

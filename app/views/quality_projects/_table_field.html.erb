@@ -1,4 +1,4 @@
-<td><%= quality_project.id %></td>
+<td><%= link_to quality_project.id, quality_project_path(quality_project) %></td>
 <td><%= quality_project.customer %></td>
 <td><%= quality_project.part.part_number %></td>
 <td><%= quality_project.part.revision %></td>
@@ -28,7 +28,7 @@
 <% end %>
 
 <% case quality_project.customer_approval %>
-<% when "not_ready" %>
+<% when "unready" %>
     <td>Not ready</td>
 <% when "ready" %>
     <td>Ready for customer</td>

@@ -1,8 +1,10 @@
+<div class="d-flex justify-content-between align-items-center">
 <h1>Quality projects</h1>
+<%= link_to "Add new project", new_part_path, class: "btn btn-primary" %>
+</div>
+
 
 <%= render "table", quality_projects: @quality_projects %>
 <%= paginate @quality_projects %>
 
 
-
-<%= link_to "New quality project", new_quality_project_path %>
