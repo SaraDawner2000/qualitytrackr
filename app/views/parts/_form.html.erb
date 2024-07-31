@@ -135,11 +135,12 @@
     <%= form.text_field :finish %>
   </div>
 
+  <% unless form.object.new_record? %>
   <div>
     <%= form.label :measured_status, style: "display: block" %>
     <%= form.check_box :measured_status %>
   </div>
-
+  <% end %>
   <div>
     <%= form.submit %>
   </div>
