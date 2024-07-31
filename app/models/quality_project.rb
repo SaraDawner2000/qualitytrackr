@@ -1,5 +1,5 @@
 class QualityProject < ApplicationRecord
-  enum customer_options: { not_ready: "not_ready", ready: "ready", sent: "sent", approved: "approved", rejected: "rejected" }
+  enum customer_options: { unready: "unready", ready: "ready", sent: "sent", approved: "approved", rejected: "rejected" }
   enum customers: { sparky: "sparky", mctracktor: "mctracktor" }
 
   belongs_to :part

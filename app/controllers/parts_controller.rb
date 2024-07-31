@@ -24,16 +24,13 @@ class PartsController < ApplicationController
   def create
     @part = Part.new(part_params)
 
-
     respond_to do |format|
       if @part.save
-        @part_id = @part.id
-
-        child_hash = params[:subcomponents].permit!
+        child_hash = params[:subcomponents]
         if child_hash
           create_children(@part, child_hash)
         end
-        format.html { redirect_to new_quality_project_url(@part_id), notice: "Part was successfully created." }
+        format.html { redirect_to new_quality_project_url(part_id: @part.id), notice: "Part was successfully created." }
         format.json { render :show, status: :created, location: @part }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -45,8 +42,9 @@ class PartsController < ApplicationController
   def create_children(parent_part, child_hash)
     child_hash.each do |key, child_params|
       delete_empty_params child_params
-      debugger
-      child_part = Part.new(child_params)
+      permitted_child_params = child_params.permit(:part_number, :revision, :drawing, :base_material, :finish)
+
+      child_part = Part.new(permitted_child_params)
       if child_part.save
         Subcomponent.create(
           parent_id: parent_part.id,
@@ -57,11 +55,7 @@ class PartsController < ApplicationController
   end
 
   def delete_empty_params(params)
-    params.each do |key, value|
-      if value == ""
-        params.delete(key)
-      end
-    end
+    params.delete_if { |key, value| value == "" }
   end
 
   # PATCH/PUT /parts/1 or /parts/1.json
@@ -95,7 +89,9 @@ class PartsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def part_params
-      params.require(:part).permit(:part_number, :revision, :job, :drawing, :base_material, :finish, :measured_status)
+      part_params = params.require(:part)
+      delete_empty_params part_params
+      part_params.permit(:part_number, :revision, :job, :drawing, :base_material, :finish, :measured_status)
     end
 
     def destroy_duds
