@@ -12,4 +12,7 @@ class QualityProject < ApplicationRecord
   def self.ransackable_associations(auth_object = nil)
     ["part"]
   end
+
+  scope :not_sold, -> { where(purchase_order: nil) }
+  scope :sold, -> { where.not(purchase_order: nil) }
 end

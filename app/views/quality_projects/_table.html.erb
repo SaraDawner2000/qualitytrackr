@@ -1,5 +1,6 @@
 <table class="table table-striped-columns table-hover">
     <thead>
+        <% if current_page?(quality_projects_path) %>
         <tr>
             <th scope="col">
                 <%= sort_link(@q, :id, "Quality project") %>
@@ -26,11 +27,21 @@
                 <%= sort_link(@q, :customer_approval, "Customer approval") %>
             </th>
         </tr>
+        <% else %>
+            <th scope="col">Quality project</th>
+            <th scope="col">Customer</th>
+            <th scope="col">Part number</th>
+            <th scope="col">Part revision</th>
+            <th scope="col">Customer request</th>
+            <th scope="col">Inspection plan</th>
+            <th scope="col">Assembled record</th>
+            <th scope="col">Customer approval</th>
+        <% end %>
     </thead>
     <tbody>
         <% quality_projects.each do |quality_project| %>
             <tr>
-                <%= render "table_field", quality_project: quality_project %>
+                <%= render "quality_projects/table_field", quality_project: quality_project %>
             </tr>
         <% end %>
         
