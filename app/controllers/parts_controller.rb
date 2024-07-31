@@ -27,11 +27,13 @@ class PartsController < ApplicationController
 
     respond_to do |format|
       if @part.save
+        @part_id = @part.id
+
         child_hash = params[:subcomponents].permit!
         if child_hash
           create_children(@part, child_hash)
         end
-        format.html { redirect_to new_quality_project_url(part_id: @part.id), notice: "Part was successfully created." }
+        format.html { redirect_to new_quality_project_url(@part_id), notice: "Part was successfully created." }
         format.json { render :show, status: :created, location: @part }
       else
         format.html { render :new, status: :unprocessable_entity }

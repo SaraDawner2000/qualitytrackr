@@ -38,5 +38,7 @@
     <strong>Customer approval:</strong>
     <%= quality_project.customer_approval %>
   </p>
+  <% @part = Part.find(quality_project.part_id) %>
+  <%= render "part_list", part: @part %>
 
 </div>

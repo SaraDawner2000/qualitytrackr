@@ -36,11 +36,23 @@
       </ul>
     </div>
   <% end %>
-
+  <% if form.object.new_record? %>
   <div>
-   <%= form.label :field_type, "Customer", style: "display: block" %>
-    <%= form.select :field_type, [["Sparky", "sparky"], ["McTractor", "mctractor"]], { prompt: "Select Customer" }, { id: "customer_selector" } %>
+   <%= form.label :customer, "Customer", style: "display: block" %>
+    <%= form.select :customer, [["Sparky", "sparky"], ["McTractor", "mctractor"]], { prompt: "Select Customer" }, { id: "customer_selector" } %>
   </div>
+  <% else %>
+    <div>
+      <%= form.label :customer %>
+      <%= form.text_field :customer, {disabled: true} %>
+    </div>
+  <% end %>
+
+  <% unless @part_id %>
+    <% @part_id = quality_project.part_id %>
+  <% end %>
+  
+  <%= form.hidden_field :part_id, value: @part_id %>
 
   <div id="mctractor_field" style="display: none">
     <%= form.label :customer_request, style: "display: block" %>
@@ -57,8 +69,33 @@
     <%= form.label :purchase_order, style: "display: block" %>
     <%= form.text_field :purchase_order %>
   </div>
-  
-  <%= form.hidden_field :part_id, value: part_id %>
+
+
+  <div class="d-flex">
+    <%= form.label :inspection_plan, style: "display: block" %>
+    <%= form.text_field :inspection_plan %>
+
+    <%= form.label :report_approval, style: "display: block" %>
+    <%= form.check_box :report_approval %>
+  </div>
+
+  <div class="d-flex">
+    <%= form.label :assembled_record, style: "display: block" %>
+    <%= form.text_field :assembled_record %>
+
+    <%= form.label :record_approval, style: "display: block" %>
+    <%= form.check_box :record_approval %>
+  </div>
+
+
+  <div class="d-flex">
+    <%= form.label :customer_approval, style: "display: block" %>
+    <%= form.select :customer_approval, QualityProject.customer_options.map { |status| status } %>
+  </div>
+
+  <% @part = Part.find(@part_id) %>
+  <%= render "part_list", part: @part %>
+
 
   <div>
     <%= form.submit %>

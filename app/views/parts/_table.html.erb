@@ -2,6 +2,9 @@
     <thead>
         <tr>
             <th scope="col">
+                <%= sort_link(@q, :quality_project_id, "Quality project") %>
+            </th> 
+            <th scope="col">
                 <%= sort_link(@q, :quality_project_customer, "Customer") %>
             </th>                    
             <th scope="col">
