@@ -1,42 +1,54 @@
 <table class="table table-striped-columns table-hover">
     <thead>
         <tr>
-            <th scope="col">
-                <%= sort_link(@q, :quality_project_id, "Quality project") %>
-            </th> 
-            <th scope="col">
-                <%= sort_link(@q, :quality_project_customer, "Customer") %>
-            </th>                    
-            <th scope="col">
-                <%= sort_link(@q, :part_number, "Part number") %>
-            </th>
-            <th scope="col">
-                <%= sort_link(@q, :revision, "Part revision") %>
-            </th>
-            <th scope="col">
-                <%= sort_link(@q, :drawing, "Drawing") %>
-            </th>
-            <th scope="col">
-                <%= sort_link(@q, :quality_project_inspection_plan, "Inspection plan") %>
-            </th>   
-            <th scope="col">
-                <%= sort_link(@q, :base_material, "Base material") %>
-            </th>
-            <th scope="col">
-                <%= sort_link(@q, :finish, "Finish") %>
-            </th>
-            <th scope="col">
-                <%= sort_link(@q, :measured_status, "Measured") %>
-            </th>
+            <% if current_page?(parts_path) %>
+                <th scope="col">
+                    <%= sort_link(@q, :quality_project_id, "Quality project") %>
+                </th> 
+                <th scope="col">
+                    <%= sort_link(@q, :quality_project_customer, "Customer") %>
+                </th>                    
+                <th scope="col">
+                    <%= sort_link(@q, :part_number, "Part number") %>
+                </th>
+                <th scope="col">
+                    <%= sort_link(@q, :revision, "Part revision") %>
+                </th>
+                <th scope="col">
+                    <%= sort_link(@q, :drawing, "Drawing") %>
+                </th>
+                <th scope="col">
+                    <%= sort_link(@q, :quality_project_inspection_plan, "Inspection plan") %>
+                </th>   
+                <th scope="col">
+                    <%= sort_link(@q, :base_material, "Base material") %>
+                </th>
+                <th scope="col">
+                    <%= sort_link(@q, :finish, "Finish") %>
+                </th>
+                <th scope="col">
+                    <%= sort_link(@q, :measured_status, "Measured") %>
+                </th>
+            <% else %>
+                <th scope="col">Quality project</th>
+                <th scope="col">Customer</th>
+                <th scope="col">Part number</th>
+                <th scope="col">Part revision</th>
+                <th scope="col">Drawing</th>
+                <th scope="col">Inspection plan</th>
+                <th scope="col">Base material</th>
+                <th scope="col">Finish</th>
+                <th scope="col">Measured</th>
+            <% end %>
         </tr>
     </thead>
     <% parts.top_parts.each do |part| %>
         <tbody>
-            <%= render "table_field", part: part %>
+            <%= render "parts/table_field", part: part %>
 
             <% unless part.children.empty? %>
                 <% part.child_parts.each do |child| %>
-                    <%= render "child_field", part: child %>
+                    <%= render "parts/child_field", part: child %>
                 <% end %>
             <% end %>
         </tbody>

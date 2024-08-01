@@ -11,6 +11,8 @@
     <td><%= quality_project.customer_request %></td>
 <% end %>
 
+<td><%= quality_project.purchase_order %></td>
+
 <% if quality_project.inspection_plan == nil %>
 <td>Not available</td>
 <% elsif quality_project.report_approval == false%>

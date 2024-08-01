@@ -123,17 +123,24 @@ unless Rails.env.production?
           project.customer_request = "not_applicable"
         end
 
-        if rand < 0.8
+        if part.measured?
           project.purchase_order = Faker::Number.number(digits: 5).to_s
-        end
-
-        if project.purchase_order && rand < 0.8
           project.inspection_plan = "file_link"
+
+          if rand < 0.6
+            project.report_approval = true
+          end
+
+        else
+          if rand < 0.8
+            project.purchase_order = Faker::Number.number(digits: 5).to_s
+
+            if rand < 0.7
+              project.inspection_plan = "file_link"
+            end
+          end
         end
 
-        if project.inspection_plan && rand < 0.5
-          project.report_approval = true
-        end
 
         if project.report_approval && rand < 0.8
           project.assembled_record = "file_link"

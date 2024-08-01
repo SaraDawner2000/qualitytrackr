@@ -15,6 +15,20 @@ class Part < ApplicationRecord
   scope :subcomponents, -> { where(id: Subcomponent.pluck(:child_id).uniq) }
   scope :single_or_child_parts, -> { where.not(base_material: "subcomponent") }
 
+  scope :not_measured, -> { where(measured_status: false) }
+  scope :ready_to_be_measured, -> {
+     joins(:quality_project)
+     .where(measured_status: false)
+     .where.not(drawing: nil)
+     .where.not(quality_project: { inspection_plan: nil })
+   }
+  scope :measured, -> { where(measured_status: true) }
+
+
+  def measured?
+    self.measured_status == true
+  end
+
   def self.ransackable_attributes(auth_object = nil)
     ["part_number", "revision", "drawing", "base_material", "finish", "measured_status"]
   end
