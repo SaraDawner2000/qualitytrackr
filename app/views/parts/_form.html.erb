@@ -91,7 +91,7 @@
 
   <div>
     <%= form.label :drawing, style: "display: block" %>
-    <%= form.text_field :drawing %>
+    <%= form.file_field :drawing %>
   </div>
 
   <% if form.object.new_record? || part.base_material == nil %>
