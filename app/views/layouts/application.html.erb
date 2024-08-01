@@ -10,15 +10,29 @@
     <%= javascript_importmap_tags %>
 
     <%= render "shared/cdn_links" %>
+
+    <style>
+      .mask-custom {
+        backdrop-filter: blur(3px);
+        background-color: rgba(0,0,0,0.7);
+      }
+      .nav-tabs {
+        border:none;
+      }
+    </style>
+
   </head>
 
   <body>
-    <div class="mb-2">
-      <%= render "shared/nav" %>
-    </div>
-    <div class="mb-2">
-      <%= render "shared/flash" %>
-    </div>
+    <% unless @no_default_navbar%>
+      <div class="mb-2">
+        <%= render "shared/nav" %>
+      </div>
+
+      <div class="mb-2">
+        <%= render "shared/flash" %>
+      </div>
+    <% end %>
     
     <%= yield %>
   </body>

@@ -6,22 +6,19 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav ms-auto">
-        <% if current_page?(parts_path)%>
-            <li class="nav-item">
-                <%= link_to "Quality Projects", quality_projects_path, class: "nav-link text-light" %>
-            </li>
-        <% else %>
-            <li class="nav-item">
-                <%= link_to "Parts", parts_path, class: "nav-link text-light" %>
-            </li>
-        <% end %>
         <% if user_signed_in? %>
           <li class="nav-item">
-            <%= link_to "Sign Out", destroy_user_session_path, class: "nav-link text-light", method: :delete %>
+              <%= link_to "Quality Projects", quality_projects_path, class: "nav-link text-light" %>
           </li>
-        <% else %>           
           <li class="nav-item">
-            <%= link_to "Sign In", new_user_session_path, class: "nav-link text-light" %>
+              <%= link_to "Parts", parts_path, class: "nav-link text-light" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Sign Out", destroy_user_session_path, class: "nav-link text-light", data: { turbo_method: :delete } %>
+          </li>
+        <% else %>
+          <li class="nav-item">
+            <%= link_to "Return to landing page", root_path, class: "nav-link text-light" %>
           </li>
         <% end %>
       </ul>

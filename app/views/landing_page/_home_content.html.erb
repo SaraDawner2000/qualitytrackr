@@ -1,0 +1,17 @@
+
+<% @image_path = asset_path('hardhat.jpg') %>
+<div
+  class="bg-image"
+  style="
+    background-image: url('<%= @image_path %>');
+    height: 800px;
+    width: auto;
+  "
+>
+  <div class="mask mask-custom h-100 text-light">
+        <%= render "shared/flash" %>
+        <h1 class="display-1">QualiTrackr</h1>
+  </div>
+</div>
+
+<div class="h-100"></div>
