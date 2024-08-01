@@ -1,0 +1,21 @@
+<nav class="bg-dark text-light d-flex justify-content-between">
+    <div class="nav nav-pills" id="nav-pills" role="tablist">
+        <button class="home-btn m-2 nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Home</button>
+        <button class="home-btn m-2 nav-link" id="nav-roadmap-tab" data-bs-toggle="tab" data-bs-target="#nav-roadmap" type="button" role="tab" aria-controls="nav-roadmap" aria-selected="false">Roadmap</button>
+        <button class="home-btn m-2 nav-link" id="nav-about-us-tab" data-bs-toggle="tab" data-bs-target="#nav-about-us" type="button" role="tab" aria-controls="nav-about-us" aria-selected="false">About Us</button>
+        <button class="home-btn m-2 nav-link" id="nav-contacts-tab" data-bs-toggle="tab" data-bs-target="#nav-contacts" type="button" role="tab" aria-controls="nav-contacts" aria-selected="false">Contacts</button>
+    </div>
+    <%= link_to 'Customer login', user_session_path, class: "btn btn-secondary m-2" %>
+</nav>
+
+<div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+        <%= render "home_content" %>
+    </div>
+    <div class="tab-pane" id="nav-roadmap" role="tabpanel" aria-labelledby="nav-roadmap-tab" tabindex="0">Roadmap content...</div>
+    <div class="tab-pane" id="nav-about-us" role="tabpanel" aria-labelledby="nav-about-us-tab" tabindex="0">About Us content...</div>
+    <div class="tab-pane" id="nav-contacts" role="tabpanel" aria-labelledby="nav-contacts-tab" tabindex="0">Contacts content...</div>
+</div>
+
+
+
