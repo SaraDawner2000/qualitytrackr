@@ -11,13 +11,12 @@
 
     <%= render "shared/cdn_links" %>
 
+    <% @image_path = asset_path('hardhat.jpg') %>
+
     <style>
       .mask-custom {
         backdrop-filter: blur(3px);
         background-color: rgba(0,0,0,0.7);
-      }
-      .nav-tabs {
-        border:none;
       }
       .nav.nav-pills .nav-link{
           color: #f8f9fa; /* Bootstrap light background color */
@@ -28,6 +27,15 @@
       }
       .display-1 {
         font-size: 10rem;
+      }
+
+      .card-background {
+        background-image: url('<%= @image_path %>');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 500px;
+        
       }
     </style>
 
