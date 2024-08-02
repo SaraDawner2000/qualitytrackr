@@ -1,5 +1,5 @@
 # Create the initial user
-User.create(
+User.create!(
   email: "ndworknstudy@gmail.com",
   password: "password",
   username: "natalie_super_admin",
