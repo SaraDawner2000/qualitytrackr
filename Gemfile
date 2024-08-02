@@ -4,7 +4,6 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby "3.3.4"
 
 gem "activerecord-postgres_enum"
-gem "aws-sdk-s3", require: false
 gem "awesome_print"
 gem "bootsnap", require: false
 gem "binding_of_caller"
