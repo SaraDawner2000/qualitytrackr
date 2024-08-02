@@ -472,6 +472,7 @@ DEPENDENCIES
   rubocop-rails
   rubocop-rails_config
   selenium-webdriver
+  simple_form
   specs_to_readme
   sprockets-rails
   stimulus-rails
