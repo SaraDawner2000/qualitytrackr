@@ -26,13 +26,8 @@ class Part < ApplicationRecord
    }
   scope :measured, -> { where(measured_status: true) }
 
-
-  def measured?
-    self.measured_status == true
-  end
-
   def self.ransackable_attributes(auth_object = nil)
-    ["part_number", "revision", "drawing", "base_material", "finish", "measured_status"]
+    ["part_number", "revision", "base_material", "finish", "measured_status"]
   end
 
   def self.ransackable_associations(auth_object = nil)

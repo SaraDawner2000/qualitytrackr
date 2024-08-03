@@ -16,7 +16,13 @@
 
   <p>
     <strong>Drawing:</strong>
-    <%= part.drawing %>
+    <% if part.drawing.attached? %>
+      <%= link_to "Download drawing", rails_blob_path(part.drawing, disposition: "attachment") do %>
+         <%# image_tag 'color_download_pdf.png', alt: 'Download PDF', style: 'width: 20px; height: 20px;' %>
+      <% end %>
+    <% else %>
+      not on file
+    <% end %>
   </p>
 
   <p>
