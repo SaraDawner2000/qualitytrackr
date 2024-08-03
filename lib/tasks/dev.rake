@@ -42,7 +42,7 @@ unless Rails.env.production?
 
     desc "Add sample parts"
     task add_parts: :environment do
-      rand(160..300).times do
+      rand(80..160).times do
         part = Part.new
         part.part_number = Faker::Number.number(digits: 8).to_s
         part.revision = ["A", "B", "C", "D", "E"].sample
@@ -51,7 +51,7 @@ unless Rails.env.production?
           part.job = "N" + Faker::Number.number(digits: 6).to_s
         end
 
-        if rand < 0.7
+        if rand < 0.5
           part.drawing.attach(
             io: File.open(Rails.root.join("db", "sample_files", "dummy_drawing.pdf")),
             filename: "dummy_drawing.pdf",
@@ -127,7 +127,7 @@ unless Rails.env.production?
           project.customer_request = "not_applicable"
         end
 
-        unless part.measured_status
+        if !part.measured_status && part.drawing.attached?
           project.purchase_order = Faker::Number.number(digits: 5).to_s
           project.inspection_plan.attach(
             io: File.open(Rails.root.join("db", "sample_files", "dummy_inspection_plan.xlsx")),
@@ -140,7 +140,7 @@ unless Rails.env.production?
           end
 
         else
-          if rand < 0.8
+          if part.drawing.attached? && rand < 0.8
             project.purchase_order = Faker::Number.number(digits: 5).to_s
 
             if rand < 0.7

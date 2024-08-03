@@ -66,7 +66,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_01_204005) do
     t.string "part_number", null: false
     t.string "revision", null: false
     t.string "job"
-    t.string "drawing"
     t.string "base_material"
     t.string "finish"
     t.boolean "measured_status", default: false
@@ -80,9 +79,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_01_204005) do
     t.string "customer", null: false
     t.string "customer_request"
     t.string "purchase_order"
-    t.string "inspection_plan"
     t.boolean "report_approval", default: false, null: false
-    t.string "assembled_record"
     t.boolean "record_approval", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

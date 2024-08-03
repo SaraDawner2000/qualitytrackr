@@ -18,8 +18,8 @@ class QualityProject < ApplicationRecord
   scope :not_sold, -> { where(purchase_order: nil) }
   scope :sold, -> { where.not(purchase_order: nil) }
 
-  scope :without_inspection_plan, -> { where(inspection_plan: nil) }
-  scope :with_inspection_plan, -> { where.not(inspection_plan: nil) }
+  scope :without_inspection_plan, -> { where.missing(:inspection_plan_attachment) }
+  scope :with_inspection_plan, -> { joins(:inspection_plan_attachment) }
 
   scope :report_not_approved, -> { where(report_approval: false) }
   scope :report_approved, -> { where(report_approval: true) }
@@ -27,8 +27,8 @@ class QualityProject < ApplicationRecord
   scope :part_measured, -> { where("part_id IN (?)", Part.measured.pluck(:id))  }
   scope :part_not_measured, -> { where("part_id IN (?)", Part.not_measured.pluck(:id))  }
 
-  scope :record_not_assembled, -> { where(assembled_record: nil) }
-  scope :record_assembled, -> { where.not(assembled_record: nil) }
+  scope :record_not_assembled, -> { where.missing(:assembled_record_attachment) }
+  scope :record_assembled, -> { joins(:assembled_record_attachment) }
 
   scope :record_not_approved, -> { where(record_approval: false) }
   scope :record_approved, -> { where(record_approval: true) }
