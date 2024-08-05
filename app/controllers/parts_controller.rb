@@ -12,9 +12,9 @@ class PartsController < ApplicationController
   def remove_drawing
     @part.drawing.purge
     unless @part.drawing.attached?
-      redirect_to @part, notice: "Drawing successfully removed"
+      redirect_to edit_part_path(@part), notice: "Drawing successfully removed"
     else
-      redirect_to @part, notice: "Failed to remove drawing"
+      redirect_to edit_part_path(@part), notice: "Failed to remove drawing"
     end
   end
 

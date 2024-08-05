@@ -21,7 +21,14 @@
 
   <p>
     <strong>Inspection plan:</strong>
-    <%= quality_project.inspection_plan %>
+    <% if quality_project.inspection_plan.attached? %>
+        <a href="<%= rails_blob_url(quality_project.inspection_plan, disposition: "attachment") %>" class="btn btn-info">
+          download
+          <img src="<%= asset_path('color_sheet.png') %>" alt="Download Excel" style="width: 20px; height: 20px;">
+        </a>
+      <% else %>
+        <p>No inspection plan on file.</p>
+      <% end %>
   </p>
 
   <p>
@@ -31,7 +38,14 @@
 
   <p>
     <strong>Assembled record:</strong>
-    <%= quality_project.assembled_record %>
+    <% if quality_project.assembled_record.attached? %>
+        <a href="<%= rails_blob_url(quality_project.assembled_record, disposition: "attachment") %>" class="btn btn-info">
+          download
+          <img src="<%= asset_path('color_sheet.png') %>" alt="Download Excel" style="width: 20px; height: 20px;">
+        </a>
+      <% else %>
+        <p>No assembled record on file.</p>
+      <% end %>
   </p>
 
   <p>

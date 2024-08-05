@@ -62,6 +62,23 @@ class QualityProjectsController < ApplicationController
     end
   end
 
+  def remove_inspection_plan
+    @quality_project.inspection_plan.purge
+    unless @quality_project.inspection_plan.attached?
+      redirect_to edit_quality_project_url(@quality_project), notice: "Drawing successfully removed"
+    else
+      redirect_to edit_quality_project_url(@quality_project), notice: "Failed to remove drawing"
+    end
+  end
+  def remove_assembled_record
+    @quality_project.assembled_record.purge
+    unless @quality_project.assembled_record.attached?
+      redirect_to edit_quality_project_url(@quality_project), notice: "Drawing successfully removed"
+    else
+      redirect_to edit_quality_project_url(@quality_project), notice: "Failed to remove drawing"
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_quality_project

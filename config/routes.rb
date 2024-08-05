@@ -8,7 +8,12 @@ Rails.application.routes.draw do
       get :remove_drawing
     end
   end
-  resources :quality_projects
+  resources :quality_projects do
+    member do
+      get :remove_inspection_plan
+      get :remove_assembled_record
+    end
+  end
 
   get "/dashboard" => "dashboards#show", as: :dashboard
 end
