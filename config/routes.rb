@@ -3,7 +3,11 @@ Rails.application.routes.draw do
 
   root "landing_page#home"
 
-  resources :parts
+  resources :parts do
+    member do
+      get :remove_drawing
+    end
+  end
   resources :quality_projects
 
   get "/dashboard" => "dashboards#show", as: :dashboard

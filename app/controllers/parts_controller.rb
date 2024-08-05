@@ -1,7 +1,7 @@
 class PartsController < ApplicationController
   include Cleanable
 
-  before_action :set_part, only: %i[ show edit update destroy ]
+  before_action :set_part, only: %i[ show edit update destroy remove_drawing]
   before_action :destroy_duds, only: %i[ index ]
   # GET /parts or /parts.json
   def index
@@ -9,8 +9,13 @@ class PartsController < ApplicationController
     @parts = @q.result.page(params[:page])
   end
 
-  # GET /parts/1 or /parts/1.json
-  def show
+  def remove_drawing
+    @part.drawing.purge
+    unless @part.drawing.attached?
+      redirect_to @part, notice: "Drawing successfully removed"
+    else
+      redirect_to @part, notice: "Failed to remove drawing"
+    end
   end
 
   # GET /parts/new

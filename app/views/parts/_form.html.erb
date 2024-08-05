@@ -90,8 +90,15 @@
   </div>
 
   <div>
-    <%= form.label :drawing, style: "display: block" %>
-    <%= form.file_field :drawing %>
+    <% if part.drawing.attached? %>
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#fileModal">
+          Manage Drawing
+      </button>
+    <% else %>
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#fileModal">
+          Add Drawing
+      </button>
+    <% end %>
   </div>
 
   <% if form.object.new_record? || part.base_material == nil %>
@@ -108,28 +115,22 @@
 
   <div id="subcomponent_field" style="display: none">
     <div id="child-fields-container">
-      <!-- Dynamic child fields will be inserted here -->
     </div>
     <button type="button" id="add-child-field" class="btn btn-primary">Add Component</button>
   </div>
   <% elsif part.base_material == "subcomponent" %>
-  <% part.child_parts.each do |child|%>
-  <div class="d-flex small">
-    <p>PN# <%= child.part_number %> Rev <%= child.revision%></p>
-  </div>
-  <% end %>
-  <div id="subcomponent_field">
-    <div id="child-fields-container">
-      <!-- Dynamic child fields will be inserted here -->
+    <% part.child_parts.each do |child|%>
+    <div class="d-flex small">
+      <p>PN# <%= child.part_number %> Rev <%= child.revision%></p>
     </div>
-    <button type="button" id="add-child-field" class="btn btn-primary">Add Component</button>
-  </div>
+    <% end %>
   <% else %>
   <div>
     <%= form.label :base_material, style: "display: block" %>
     <%= form.text_field :base_material %>
   </div>
   <% end %>
+
   <div>
     <%= form.label :finish, style: "display: block" %>
     <%= form.text_field :finish %>
@@ -146,3 +147,4 @@
   </div>
 <% end %>
 
+<%= render "drawing_modal", part: part %>

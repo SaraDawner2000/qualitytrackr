@@ -1,0 +1,24 @@
+<div class="modal fade" id="fileModal" tabindex="-1" aria-labelledby="fileModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+    <div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title" id="fileModalLabel">Manage Drawing</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <%= form_with model: part, local: true, url: part_path(part), html: { multipart: true } do |form| %>
+        <div class="form-group">
+            <%= form.label :drawing, "Replace drawing:" %>
+            <%= form.file_field :drawing, class: "form-control" %>
+        </div>
+        <%= form.submit "Upload", class: "btn btn-primary" %>
+        <% end %>
+
+        <%= link_to "Remove current drawing", remove_drawing_part_path(part), class: 'btn btn-danger' %>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+    </div>
+    </div>
+</div>
+</div>

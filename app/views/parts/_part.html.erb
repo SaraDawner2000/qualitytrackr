@@ -16,14 +16,18 @@
 
   <p>
     <strong>Drawing:</strong>
-    <% if part.drawing.attached? %>
-      <%= link_to rails_blob_url(part.drawing, disposition: "attachment") do %>
-        <%= image_tag 'color_download_pdf.png', alt: 'Download PDF', style: 'width: 20px; height: 20px;' %>
+      <% if part.drawing.attached? %>
+        <p>Existing Drawing:</p>
+        <a href="<%= rails_blob_url(part.drawing, disposition: "attachment") %>" class="btn btn-info">
+            <img src="<%= asset_path('color_download_pdf.png') %>" alt="Download PDF" style="width: 20px; height: 20px;">
+            Download Current Drawing
+        </a>
+      <% else %>
+        <p>No drawing on file.</p>
       <% end %>
-    <% else %>
-      not on file
-    <% end %>
   </p>
+
+
 
   <p>
     <strong>Base material:</strong>
@@ -41,3 +45,4 @@
   </p>
 
 </div>
+
