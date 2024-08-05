@@ -2,7 +2,7 @@
   <%= f.grouping_fields(f.object.new_grouping) do |g| %>
     <%= g.condition_fields(g.object.new_condition) do |c| %>
       <%= c.attribute_fields do |a| %>
-        <%= a.attribute_select only: %i(id customer_part_number part_revision customer_request purchase_order report_approval record_approval) %>
+        <%= a.attribute_select only: %i(id customer part_number part_revision customer_request purchase_order) %>
       <% end %>
       <%= c.predicate_select only: %i(cont not_eq eq) %>
       <%= c.value_fields do |v| %>
@@ -10,6 +10,16 @@
       <% end %>
     <% end %>
   <% end %>
+  <div>
+    <%= f.label :report_approval %>
+    <%= f.select :report_approval_eq, [['Approved', true], ['Needs approval', false]], include_blank: 'All' %>
+  </div>
+  <div>
+    <%= f.label :record_approval %>
+    <%= f.select :record_approval_eq, [['Approved', true], ['Needs approval', false]], include_blank: 'All' %>
+  </div>
+  
+  
   <%= f.submit "Search", class: 'btn btn-primary' %>
 <% end %>
 
