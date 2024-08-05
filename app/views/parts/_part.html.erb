@@ -1,47 +1,49 @@
-<div id="<%= dom_id part %>">
-  <p>
-    <strong>Part number:</strong>
-    <%= part.part_number %>
-  </p>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-4">
+      <div class="card mb-3" id="<%= dom_id(part) %>">
+        <div class="card-header">
+          <h5 class="card-title">Part Details</h5>
+        </div>
+        <div class="card-body">
+          <dl class="row">
+            <dt class="col-sm-5">Part number:</dt>
+            <dd class="col-sm-7"><%= part.part_number %></dd>
 
-  <p>
-    <strong>Revision:</strong>
-    <%= part.revision %>
-  </p>
+            <dt class="col-sm-5">Revision:</dt>
+            <dd class="col-sm-7"><%= part.revision %></dd>
 
-  <p>
-    <strong>Job:</strong>
-    <%= part.job %>
-  </p>
+            <dt class="col-sm-5">Job:</dt>
+            <dd class="col-sm-7"><%= part.job %></dd>
 
-  <p>
-    <strong>Drawing:</strong>
-      <% if part.drawing.attached? %>
-        <a href="<%= rails_blob_url(part.drawing, disposition: "attachment") %>" class="btn btn-info">
-          download
-          <img src="<%= asset_path('color_download_pdf.png') %>" alt="Download PDF" style="width: 20px; height: 20px;">
-        </a>
-      <% else %>
-        <p>No drawing on file.</p>
-      <% end %>
-  </p>
+            <dt class="col-sm-5">Drawing:</dt>
+            <dd class="col-sm-7">
+              <% if part.drawing.attached? %>
+                <a href="<%= rails_blob_url(part.drawing, disposition: 'attachment') %>" class="btn btn-info">
+                  Download
+                  <img src="<%= asset_path('color_download_pdf.png') %>" alt="Download PDF" style="width: 20px; height: 20px;" class="ms-2">
+                </a>
+              <% else %>
+                <span class="text-muted">No drawing on file.</span>
+              <% end %>
+            </dd>
 
+            <dt class="col-sm-5">Base material:</dt>
+            <dd class="col-sm-7"><%= part.base_material %></dd>
 
+            <dt class="col-sm-5">Finish:</dt>
+            <dd class="col-sm-7"><%= part.finish %></dd>
 
-  <p>
-    <strong>Base material:</strong>
-    <%= part.base_material %>
-  </p>
-
-  <p>
-    <strong>Finish:</strong>
-    <%= part.finish %>
-  </p>
-
-  <p>
-    <strong>Measured status:</strong>
-    <%= part.measured_status %>
-  </p>
-
+            <dt class="col-sm-5">Measured status:</dt>
+            <dd class="col-sm-7"><%= part.measured_status %></dd>
+          </dl>
+        </div>
+        <div class="card-footer text-muted">
+          <%= link_to "Edit this part", edit_part_path(part), class: "btn btn-warning me-2" %>
+          <%= link_to "Back to parts", parts_path, class: "btn btn-secondary me-2" %>
+          <%= button_to "Destroy this part", part, method: :delete, class: "btn btn-danger" %>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-

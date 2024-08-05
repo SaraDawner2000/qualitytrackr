@@ -35,16 +35,35 @@
       newChildField.id = `child${childFieldCount}`;
 
       newChildField.innerHTML = `
-        <label for="child${childFieldCount}_part_number">Part number</label>
-        <input id="child${childFieldCount}_part_number" type="text" name="subcomponents[child${childFieldCount}][part_number]">
-        <label for="child${childFieldCount}_revision">Revision</label>
-        <input id="child${childFieldCount}_revision" type="text" name="subcomponents[child${childFieldCount}][revision]">
-        <label for="child${childFieldCount}_base_material">Base material</label>
-        <input id="child${childFieldCount}_base_material" type="text" name="subcomponents[child${childFieldCount}][base_material]">
-        <label for="child${childFieldCount}_finish">Finish</label>
-        <input id="child${childFieldCount}_finish" type="text" name="subcomponents[child${childFieldCount}][finish]">
-        <button type="button" class="remove-child-field btn btn-danger">Remove</button>
-      `;
+  <ul class="list-unstyled">
+    <li class="mb-3">
+      <div class="d-flex justify-content-between align-items-center">
+        <label for="child${childFieldCount}_part_number" class="form-label mb-0">Part number</label>
+        <input id="child${childFieldCount}_part_number" type="text" name="subcomponents[child${childFieldCount}][part_number]" class="form-control w-50">
+      </div>
+    </li>
+    <li class="mb-3">
+      <div class="d-flex justify-content-between align-items-center">
+        <label for="child${childFieldCount}_revision" class="form-label mb-0">Revision</label>
+        <input id="child${childFieldCount}_revision" type="text" name="subcomponents[child${childFieldCount}][revision]" class="form-control w-50">
+      </div>
+    </li>
+    <li class="mb-3">
+      <div class="d-flex justify-content-between align-items-center">
+        <label for="child${childFieldCount}_base_material" class="form-label mb-0">Base material</label>
+        <input id="child${childFieldCount}_base_material" type="text" name="subcomponents[child${childFieldCount}][base_material]" class="form-control w-50">
+      </div>
+    </li>
+    <li class="mb-3">
+      <div class="d-flex justify-content-between align-items-center">
+        <label for="child${childFieldCount}_finish" class="form-label mb-0">Finish</label>
+        <input id="child${childFieldCount}_finish" type="text" name="subcomponents[child${childFieldCount}][finish]" class="form-control w-50">
+      </div>
+    </li>
+    <li class="text-center mt-3">
+      <button type="button" class="remove-child-field btn btn-danger">Remove</button>
+    </li>
+  </ul>`;
 
       childFieldsContainer.appendChild(newChildField);
       childFieldCount++;
