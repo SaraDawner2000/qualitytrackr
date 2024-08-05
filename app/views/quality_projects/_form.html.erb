@@ -94,16 +94,30 @@
 
   <% unless form.object.new_record? %>
     <div class = "d-flex">
-      <%= form.label :inspection_plan, style: "display: block" %>
-      <%= form.text_field :inspection_plan %>
+      <% if quality_project.inspection_plan.attached? %>
+            <%= form.label :inspection_plan, "Replace inspection plan:" %>
+            <%= form.file_field :inspection_plan, class: "form-control" %>
+            <p>or</p>
+            <%= link_to "Remove current inspection plan", remove_inspection_plan_quality_project_path(part), class: 'btn btn-danger' %>
+      <% else %>
+            <%= form.label :inspection_plan, "Add inspection plan:" %>
+            <%= form.file_field :inspection_plan, class: "form-control" %>
+      <% end %>
 
       <%= form.label :report_approval, style: "display: block" %>
       <%= form.check_box :report_approval %>
     </div>
 
     <div class = "d-flex">
-      <%= form.label :assembled_record, style: "display: block" %>
-      <%= form.text_field :assembled_record %>
+      <% if quality_project.inspection_plan.attached? %>
+            <%= form.label :inspection_plan, "Replace assembled record:" %>
+            <%= form.file_field :inspection_plan, class: "form-control" %>
+            <p>or</p>
+            <%= link_to "Remove current inspection plan", remove_inspection_plan_quality_project_path(part), class: 'btn btn-danger' %>
+      <% else %>
+            <%= form.label :inspection_plan, "Add assembled record:" %>
+            <%= form.file_field :inspection_plan, class: "form-control" %>
+      <% end %>
 
       <%= form.label :record_approval, style: "display: block" %>
       <%= form.check_box :record_approval %>
@@ -111,7 +125,7 @@
 
     <div class = "d-flex">
       <%= form.label :customer_approval, style: "display: block" %>
-      <%= form.select :approval_option, QualityProject.customer_options.map { |status| [status, status] } %>
+      <%= form.select :approval_option, QualityProject.customer_options.map { |status| status } %>
     </div>
   <% end %>
 

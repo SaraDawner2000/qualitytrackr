@@ -4,7 +4,6 @@ class CreateParts < ActiveRecord::Migration[7.0]
       t.string :part_number, null: false
       t.string :revision, null: false
       t.string :job
-      t.string :drawing
       t.string :base_material
       t.string :finish
       t.boolean :measured_status, mull: false, default: false

@@ -1,1 +1,1 @@
-<%= render "parts/table", parts: Part.ready_to_be_measured %>
+<%= render "parts/table", parts: Part.with_inspection_plan.drawing_attached.not_measured %>

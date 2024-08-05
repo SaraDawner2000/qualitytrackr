@@ -13,7 +13,7 @@
 
 <td><%= quality_project.purchase_order %></td>
 
-<% if quality_project.inspection_plan == nil %>
+<% if !quality_project.inspection_plan.attached? %>
 <td>Not available</td>
 <% elsif quality_project.report_approval == false%>
 <td>Requires approval</td>
@@ -21,7 +21,7 @@
 <td class="text-success">Approved</td>
 <% end %>
 
-<% if quality_project.assembled_record == nil %>
+<% if !quality_project.assembled_record.attached? %>
 <td>Not available</td>
 <% elsif quality_project.record_approval == false%>
 <td>Requires approval</td>

@@ -16,8 +16,17 @@
 
   <p>
     <strong>Drawing:</strong>
-    <%= part.drawing %>
+      <% if part.drawing.attached? %>
+        <a href="<%= rails_blob_url(part.drawing, disposition: "attachment") %>" class="btn btn-info">
+          download
+          <img src="<%= asset_path('color_download_pdf.png') %>" alt="Download PDF" style="width: 20px; height: 20px;">
+        </a>
+      <% else %>
+        <p>No drawing on file.</p>
+      <% end %>
   </p>
+
+
 
   <p>
     <strong>Base material:</strong>
@@ -35,3 +44,4 @@
   </p>
 
 </div>
+

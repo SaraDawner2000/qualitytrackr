@@ -1,7 +1,7 @@
 <h5>Current tasks:</h5>
 <p>Purchase order # required:    <strong><%= QualityProject.not_sold.count %></strong> projects</p>
 <p>Inspection plan required:     <strong><%= QualityProject.sold.without_inspection_plan.count %></strong> projects</p>
-<p>Parts to be measured:         <strong><%= QualityProject.with_inspection_plan.part_not_measured.count %></strong> parts</p>
+<p>Parts to be measured:         <strong><%= Part.with_inspection_plan.drawing_attached.not_measured.count %></strong> parts</p>
 <p>Inspection approval required: <strong><%= QualityProject.part_measured.report_not_approved.count %></strong> projects</p>
 <p>Record assembly required:     <strong><%= QualityProject.report_approved.record_not_assembled.count %></strong> projects</p>
 <p>Record approval required:     <strong><%= QualityProject.record_assembled.record_not_approved.count %></strong> projects</p>

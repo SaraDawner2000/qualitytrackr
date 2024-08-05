@@ -42,7 +42,7 @@ unless Rails.env.production?
 
     desc "Add sample parts"
     task add_parts: :environment do
-      rand(160..300).times do
+      rand(80..160).times do
         part = Part.new
         part.part_number = Faker::Number.number(digits: 8).to_s
         part.revision = ["A", "B", "C", "D", "E"].sample
@@ -52,11 +52,15 @@ unless Rails.env.production?
         end
 
         if rand < 0.5
-          part.drawing = "drawing_link"
+          part.drawing.attach(
+            io: File.open(Rails.root.join("db", "sample_files", "dummy_drawing.pdf")),
+            filename: "dummy_drawing.pdf",
+            content_type: "application/pdf"
+          )
         end
 
-        if part.job && part.drawing
-          if rand < 0.2
+        if part.job && part.drawing.attached?
+          if rand < 0.3
             part.base_material = "subcomponent"
           else
             part.base_material = ["steel", "aluminum", nil].sample
@@ -85,7 +89,7 @@ unless Rails.env.production?
     task add_subcomponents: :environment do
       Part.top_parts_with_subcomponents.each do |parent|
         if parent.measured_status
-          children = Part.single_or_child_parts.where(measured_status: true).sample(rand(1..4))
+          children = Part.single_or_child_parts.measured.sample(rand(1..4))
           children.each do |child|
             Subcomponent.create(
               child_id: child.id,
@@ -93,8 +97,8 @@ unless Rails.env.production?
             )
           end
         else
-          possible_subcomponents = Part.single_or_child_parts.sample(rand(1..4))
-          possible_subcomponents.each do |child|
+          children = Part.single_or_child_parts.sample(rand(1..4))
+          children.each do |child|
             Subcomponent.create(
               child_id: child.id,
               parent_id: parent.id
@@ -123,30 +127,42 @@ unless Rails.env.production?
           project.customer_request = "not_applicable"
         end
 
-        if part.measured?
+        if !part.measured_status && part.drawing.attached?
           project.purchase_order = Faker::Number.number(digits: 5).to_s
-          project.inspection_plan = "file_link"
+          project.inspection_plan.attach(
+            io: File.open(Rails.root.join("db", "sample_files", "dummy_inspection_plan.xlsx")),
+            filename: "dummy_inspection_plan.xlsx",
+            content_type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          )
 
           if rand < 0.6
             project.report_approval = true
           end
 
         else
-          if rand < 0.8
+          if part.drawing.attached? && rand < 0.8
             project.purchase_order = Faker::Number.number(digits: 5).to_s
 
             if rand < 0.7
-              project.inspection_plan = "file_link"
+              project.inspection_plan.attach(
+                io: File.open(Rails.root.join("db", "sample_files", "dummy_inspection_plan.xlsx")),
+                filename: "dummy_inspection_plan.xlsx",
+                content_type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+              )
             end
           end
         end
 
 
         if project.report_approval && rand < 0.8
-          project.assembled_record = "file_link"
+          project.assembled_record.attach(
+            io: File.open(Rails.root.join("db", "sample_files", "dummy_assembled_record.pdf")),
+            filename: "dummy_assembled_record.pdf",
+            content_type: "application/pdf"
+          )
         end
 
-        if project.assembled_record && rand < 0.3
+        if project.assembled_record.attached? && rand < 0.3
           project.record_approval = true
         end
 
