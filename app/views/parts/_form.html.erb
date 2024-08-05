@@ -61,6 +61,7 @@
 
 
 
+
 <%= form_with(model: part) do |form| %>
   <% if part.errors.any? %>
     <div style="color: red">
@@ -88,21 +89,17 @@
     <%= form.text_field :job %>
   </div>
   
-  <% unless form.object.new_record? %>
     <div>
-      <p>Drawing</p>
       <% if part.drawing.attached? %>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#fileModal">
-          Manage Drawing
-        </button>
+            <%= form.label :drawing, "Replace drawing:" %>
+            <%= form.file_field :drawing, class: "form-control" %>
+            <p>or</p>
+            <%= link_to "Remove current drawing", remove_drawing_part_path(part), class: 'btn btn-danger' %>
       <% else %>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#fileModal">
-          Add Drawing
-        </button>
+            <%= form.label :drawing, "Add drawing:" %>
+            <%= form.file_field :drawing, class: "form-control" %>
       <% end %>
     </div>
-    <%= render "drawing_modal", part: part %>
-  <% end %>
 
   <% if form.object.new_record? || part.base_material.nil? %>
     <div>
@@ -154,3 +151,4 @@
     <%= form.submit %>
   </div>
 <% end %>
+
