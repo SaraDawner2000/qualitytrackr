@@ -6,7 +6,7 @@ class PartsController < ApplicationController
   # GET /parts or /parts.json
   def index
     @q = Part.ransack(params[:q])
-    @parts = @q.result.page(params[:page])
+    @parts = @q.result(distinct: true).page(params[:page])
   end
 
   def remove_drawing
