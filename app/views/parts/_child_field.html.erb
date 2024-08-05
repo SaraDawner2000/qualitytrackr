@@ -5,5 +5,9 @@
     <td><%= part.revision %></td>
     <td><%= part.base_material %></td>
     <td><%= part.finish %></td>
-    <td><%= part.measured_status %></td>
+    <% if part.measured_status %>
+        <td class="text-success">Measured</td>
+    <% else%>
+        <td class="text-danger">Not measured</td>
+    <% end %>
 </tr>
