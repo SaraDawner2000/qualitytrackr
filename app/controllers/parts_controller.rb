@@ -64,6 +64,10 @@ class PartsController < ApplicationController
   def update
     respond_to do |format|
       if @part.update(part_params)
+        child_hash = params[:subcomponents]
+        if child_hash
+          create_children(@part, child_hash)
+        end
         format.html { redirect_to part_url(@part), notice: "Part was successfully updated." }
         format.json { render :show, status: :ok, location: @part }
       else
