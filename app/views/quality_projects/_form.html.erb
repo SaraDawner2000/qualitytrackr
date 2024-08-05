@@ -1,3 +1,102 @@
+<%= form_with(model: quality_project, class: 'needs-validation', novalidate: true) do |form| %>
+  <% if quality_project.errors.any? %>
+    <div class="alert alert-danger">
+      <h4><%= pluralize(quality_project.errors.count, "error") %> prohibited this quality project from being saved:</h4>
+      <ul>
+        <% quality_project.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :customer, "Customer", class: "form-label" %>
+    <% if form.object.new_record? %>
+      <%= form.select :customer, [["Sparky", "sparky"], ["McTractor", "mctractor"]], { prompt: "Select Customer" }, { id: "customer_selector", class: "form-select" } %>
+    <% else %>
+      <%= form.text_field :customer, disabled: true, class: "form-control" %>
+    <% end %>
+  </div>
+
+  <div id="mctractor_field" class="mb-3" style="display: none;">
+    <%= form.label :customer_request, class: "form-label" %>
+    <%= form.text_field :customer_request, class: "form-control" %>
+    <%= form.hidden_field :customer, value: "mctractor" %>
+  </div>
+
+  <div id="sparky_field" class="mb-3" style="display: none;">
+    <%= form.hidden_field :customer_request, value: "not_applicable", id: "sparky_customer_request" %>
+    <%= form.hidden_field :customer, value: "sparky", id: "sparky_customer_field" %>
+  </div>
+
+  <%= form.hidden_field :customer, value: "", id: "hidden_customer_field" %>
+  <%= form.hidden_field :customer_request, value: "", id: "hidden_customer_request_field" %>
+
+  <div class="mb-3">
+    <%= form.label :purchase_order, class: "form-label" %>
+    <%= form.text_field :purchase_order, class: "form-control" %>
+  </div>
+
+  <% unless form.object.new_record? %>
+    <h6>Inspection plan</h6>
+    <div class="mb-3">
+      <% if quality_project.inspection_plan.attached? %>
+        <div>
+          <%= form.label :report_approval, class: "form-label" %>
+          <%= form.check_box :report_approval, class: "form-check-input" %>
+        </div>
+        <div>
+          <%= form.label :inspection_plan, "Replace inspection plan:", class: "form-label" %>
+          <%= form.file_field :inspection_plan, class: "form-control" %>
+        </div>
+        <%= link_to "Remove inspection plan", remove_inspection_plan_quality_project_path(quality_project), class: 'btn btn-danger mt-2' %>
+      <% else %>
+        <%= form.label :inspection_plan, "Add inspection plan:", class: "form-label" %>
+        <%= form.file_field :inspection_plan, class: "form-control" %>
+      <% end %>
+    </div>
+
+    <div class="mb-3">
+      <h6>Assembled record</h6>
+      <% if quality_project.inspection_plan.attached? %>
+        <div>
+          <%= form.label "Approve record: ", class: "form-label" %>
+          <%= form.check_box :record_approval, class: "form-check-input" %>
+        </div>
+        <div>
+          <%= form.label :assembled_record, "Replace assembled record:", class: "form-label" %>
+          <%= form.file_field :assembled_record, class: "form-control" %>
+        </div>
+        <%= link_to "Remove assembled record", remove_inspection_plan_quality_project_path(quality_project), class: 'btn btn-danger mt-2' %>
+      <% else %>
+        <%= form.label :assembled_record, "Add assembled record:", class: "form-label" %>
+        <%= form.file_field :assembled_record, class: "form-control" %>
+      <% end %>
+    </div>
+ 
+    <div class="mb-3">
+      <%= form.label :customer_approval, class: "form-label" %>
+      <%= form.select :approval_option, QualityProject.customer_options.map { |status| status }, {}, { class: "form-select" } %>
+    </div>
+  <% end %>
+
+  <% if form.object.new_record? %>
+    <% @part_id = part_id %>
+  <% else %>
+    <% @part_id = quality_project.part_id %>
+  <% end %>
+  <%= form.hidden_field :part_id, value: @part_id %>
+
+  <% @part = Part.find(@part_id) %>
+  <%= render "part_list", part: @part %>
+
+  <div class="mb-3 text-center">
+    <%= form.submit "Save", class: "btn btn-primary" %>
+  </div>
+<% end %>
+
+
 <script>
   document.addEventListener("turbo:load", function() {
     const customerSelector = document.getElementById("customer_selector");
@@ -5,8 +104,8 @@
     const sparkyField = document.getElementById("sparky_field");
     const sparkyCustomerRequest = document.getElementById("sparky_customer_request");
     const sparkyCustomerField = document.getElementById("sparky_customer_field");
-    const hiddenCustomerRequest = document.getElementById("hidden_customer_field");
-    const hiddenCustomerField = document.getElementById("hidden_customer_request_fiel");
+    const hiddenCustomerRequest = document.getElementById("hidden_customer_request_field");
+    const hiddenCustomerField = document.getElementById("hidden_customer_field");
 
     customerSelector.addEventListener("change", function() {
       const selectedValue = this.value;
@@ -18,8 +117,8 @@
         sparkyCustomerField.removeAttribute("name");
         hiddenCustomerRequest.removeAttribute("name");
         hiddenCustomerField.removeAttribute("name");
-        mctractorCustomerRequest.setAttribute("name");
-        mctractorCustomerField.setAttribute("name");
+        document.querySelector('input[name="quality_project[customer]"]').value = "mctractor";
+        document.querySelector('input[name="quality_project[customer_request]"]').value = "";
       } else if (selectedValue === "sparky") {
         mctractorField.style.display = "none";
         sparkyField.style.display = "block";
@@ -27,132 +126,16 @@
         sparkyCustomerField.setAttribute("name", "quality_project[customer]");
         hiddenCustomerRequest.removeAttribute("name");
         hiddenCustomerField.removeAttribute("name");
-        mctractorCustomerRequest.removeAttribute("name");
-        mctractorCustomerField.removeAttribute("name");
+        document.querySelector('input[name="quality_project[customer]"]').value = "sparky";
+        document.querySelector('input[name="quality_project[customer_request]"]').value = "not_applicable";
       } else {
-        // Handle the case where no option is selected
         mctractorField.style.display = "none";
         sparkyField.style.display = "none";
         sparkyCustomerRequest.removeAttribute("name");
         sparkyCustomerField.removeAttribute("name");
-        mctractorCustomerRequest.removeAttribute("name");
-        mctractorCustomerField.removeAttribute("name");
-        document.querySelector('input[name="quality_project[customer]"]').value = ""; // Set empty string
-        document.querySelector('input[name="quality_project[customer_request]"]').value = ""; // Set empty string
+        document.querySelector('input[name="quality_project[customer]"]').value = "";
+        document.querySelector('input[name="quality_project[customer_request]"]').value = "";
       }
     });
   });
 </script>
-
-<%= form_with(model: quality_project) do |form| %>
-  <% if quality_project.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(quality_project.errors.count, "error") %> prohibited this quality_project from being saved:</h2>
-
-      <ul>
-        <% quality_project.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-  <% if form.object.new_record? %>
-  <div>
-    <%= form.label :customer, "Customer", style: "display: block" %>
-    <%= form.select :customer, [["Sparky", "sparky"], ["McTractor", "mctractor"]], { prompt: "Select Customer" }, { id: "customer_selector" } %>
-  </div>
-  <% else %>
-    <div>
-    <%= form.label :customer, "Customer", style: "display: block" %>
-    <%= form.text_field :customer,{ disabled:true } %>
-  </div>
-  <% end %>
-
-  <div id="mctractor_field" style="display: none">
-    <%= form.label :customer_request, style: "display: block" %>
-    <%= form.text_field :customer_request %>
-    <%= form.hidden_field :customer, value: "mctractor" %>
-  </div>
-
-  <div id="sparky_field" style="display: none">
-    <%= form.hidden_field :customer_request, value: "not_applicable", id: "sparky_customer_request" %>
-    <%= form.hidden_field :customer, value: "sparky", id: "sparky_customer_field" %>
-  </div>
-
-  <%= form.hidden_field :customer, value: "", id: "hidden_customer_field" %>
-  <%= form.hidden_field :customer_request, value: "", id: "hidden_customer_request_field" %>
-  <div>
-  <%= form.label :customer_request, style: "display: block" %>
-  <%= form.text_field :customer_request %>
-  </div>
-
-  <div>
-    <%= form.label :purchase_order, style: "display: block" %>
-    <%= form.text_field :purchase_order %>
-  </div>
-
-
-  <% unless form.object.new_record? %>
-    <div class = "d-flex">
-      <% if quality_project.inspection_plan.attached? %>
-            
-            <div>
-              <%= form.label :inspection_plan, "Replace inspection plan:" %>
-              <%= form.file_field :inspection_plan, class: "form-control" %>
-
-              <%= form.label :report_approval, style: "display: block" %>
-              <%= form.check_box :report_approval %>
-            </div>
-            <div>
-              <%= link_to "Remove inspection plan", remove_inspection_plan_quality_project_path(quality_project), class: 'btn btn-danger' %>
-            </div>
-            
-            
-      <% else %>
-            <%= form.label :inspection_plan, "Add inspection plan:" %>
-            <%= form.file_field :inspection_plan, class: "form-control" %>
-      <% end %>
-
-
-    </div>
-
-    <div class = "d-flex">
-      <% if quality_project.inspection_plan.attached? %>
-            <div>
-            <%= form.label :assembled_record, "Replace assembled record:" %>
-            <%= form.file_field :assembled_record, class: "form-control" %>
-            <%= form.label :record_approval, style: "display: block" %>
-            <%= form.check_box :record_approval %>
-            </div>
-            <div>
-            <%= link_to "Remove assembled record", remove_inspection_plan_quality_project_path(quality_project), class: 'btn btn-danger' %>
-            </div>
-      <% else %>
-            <%= form.label :assembled_record, "Add assembled record:" %>
-            <%= form.file_field :assembled_record, class: "form-control" %>
-      <% end %>
-
-      
-    </div>
-
-    <div class = "d-flex">
-      <%= form.label :customer_approval, style: "display: block" %>
-      <%= form.select :approval_option, QualityProject.customer_options.map { |status| status } %>
-    </div>
-  <% end %>
-
-  
-  <% if form.object.new_record? %>
-    <% @part_id = part_id %>
-  <% else%>
-    <% @part_id = quality_project.part_id%>
-  <% end %>
-  <%= form.hidden_field :part_id, value: @part_id %>
-  
-  <% @part = Part.find(@part_id)%>
-  <%= render "part_list", part: @part %>
-
-  <div>
-    <%= form.submit %>
-  </div>
-<% end %>
