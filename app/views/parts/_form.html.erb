@@ -88,18 +88,20 @@
     <%= form.label :job, style: "display: block" %>
     <%= form.text_field :job %>
   </div>
-
-  <div>
-    <% if part.drawing.attached? %>
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#fileModal">
-          Manage Drawing
-      </button>
-    <% else %>
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#fileModal">
-          Add Drawing
-      </button>
-    <% end %>
-  </div>
+  <% unless form.object.new_record? %>
+    <div>
+      <% if part.drawing.attached? %>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#fileModal">
+            Manage Drawing
+        </button>
+      <% else %>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#fileModal">
+            Add Drawing
+        </button>
+      <% end %>
+    </div>
+    <%= render "drawing_modal", part: part %>
+  <% end %>
 
   <% if form.object.new_record? || part.base_material == nil %>
 
@@ -119,11 +121,13 @@
     <button type="button" id="add-child-field" class="btn btn-primary">Add Component</button>
   </div>
   <% elsif part.base_material == "subcomponent" %>
+  Subcomponents:
     <% part.child_parts.each do |child|%>
     <div class="d-flex small">
       <p>PN# <%= child.part_number %> Rev <%= child.revision%></p>
     </div>
     <% end %>
+    <button type="button" id="add-child-field" class="btn btn-primary">Add Component</button>
   <% else %>
   <div>
     <%= form.label :base_material, style: "display: block" %>
@@ -147,4 +151,3 @@
   </div>
 <% end %>
 
-<%= render "drawing_modal", part: part %>
