@@ -43,14 +43,17 @@
     <div class="mb-3">
       <% if quality_project.inspection_plan.attached? %>
         <div>
-          <%= form.label :report_approval, class: "form-label" %>
+          <%= form.label "Report approval:", class: "form-label" %>
           <%= form.check_box :report_approval, class: "form-check-input" %>
         </div>
         <div>
           <%= form.label :inspection_plan, "Replace inspection plan:", class: "form-label" %>
           <%= form.file_field :inspection_plan, class: "form-control" %>
         </div>
-        <%= link_to "Remove inspection plan", remove_inspection_plan_quality_project_path(quality_project), class: 'btn btn-danger mt-2' %>
+        <div class="d-flex align-items-center justify-content-between mt-3">
+          <%= form.label "Remove inspection plan:", class: "form-label" %>
+          <%= link_to "remove", remove_inspection_plan_quality_project_path(quality_project), class: 'btn btn-danger mt-2' %>
+        </div>
       <% else %>
         <%= form.label :inspection_plan, "Add inspection plan:", class: "form-label" %>
         <%= form.file_field :inspection_plan, class: "form-control" %>
@@ -68,7 +71,10 @@
           <%= form.label :assembled_record, "Replace assembled record:", class: "form-label" %>
           <%= form.file_field :assembled_record, class: "form-control" %>
         </div>
-        <%= link_to "Remove assembled record", remove_inspection_plan_quality_project_path(quality_project), class: 'btn btn-danger mt-2' %>
+        <div class="d-flex align-items-center justify-content-between mt-3">
+          <%= form.label "Remove assembled record:", class: "form-label" %>
+          <%= link_to "remove", remove_inspection_plan_quality_project_path(quality_project), class: 'btn btn-danger mt-2' %>
+        </div>
       <% else %>
         <%= form.label :assembled_record, "Add assembled record:", class: "form-label" %>
         <%= form.file_field :assembled_record, class: "form-control" %>

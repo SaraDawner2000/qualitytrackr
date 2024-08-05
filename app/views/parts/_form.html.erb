@@ -62,10 +62,11 @@
 
 
 
-<%= form_with(model: part) do |form| %>
+
+<%= form_with(model: part, class: 'needs-validation', novalidate: true) do |form| %>
   <% if part.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(part.errors.count, "error") %> prohibited this part from being saved:</h2>
+    <div class="alert alert-danger">
+      <h4 class="alert-heading">Validation Errors</h4>
       <ul>
         <% part.errors.each do |error| %>
           <li><%= error.full_message %></li>
@@ -74,81 +75,88 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :part_number, style: "display: block" %>
-    <%= form.text_field :part_number %>
+  <div class="mb-3">
+    <%= form.label :part_number, class: "form-label" %>
+    <%= form.text_field :part_number, class: "form-control" %>
   </div>
 
-  <div>
-    <%= form.label :revision, style: "display: block" %>
-    <%= form.text_field :revision %>
+  <div class="mb-3">
+    <%= form.label :revision, class: "form-label" %>
+    <%= form.text_field :revision, class: "form-control" %>
   </div>
 
-  <div>
-    <%= form.label :job, style: "display: block" %>
-    <%= form.text_field :job %>
+  <div class="mb-3">
+    <%= form.label :job, class: "form-label" %>
+    <%= form.text_field :job, class: "form-control" %>
   </div>
-  
-    <div>
-      <% if part.drawing.attached? %>
-            <%= form.label :drawing, "Replace drawing:" %>
-            <%= form.file_field :drawing, class: "form-control" %>
-            <p>or</p>
-            <%= link_to "Remove current drawing", remove_drawing_part_path(part), class: 'btn btn-danger' %>
-      <% else %>
-            <%= form.label :drawing, "Add drawing:" %>
-            <%= form.file_field :drawing, class: "form-control" %>
-      <% end %>
-    </div>
+
+  <div class="mb-3">
+    <% if part.drawing.attached? %>
+      <div>
+        <%= form.label "Replace drawing:", class: "form-label" %>
+        <%= form.file_field :drawing, class: "form-control" %>
+      </div>
+      <div class="d-flex align-items-center justify-content-between mt-3">
+        <%= form.label "Remove current drawing:", class: "form-label mb-0" %>
+        <%= link_to "remove", remove_drawing_part_path(part), class: 'btn btn-danger' %>
+      </div>
+      
+    <% else %>
+      <%= form.label "Add drawing:", class: "form-label" %>
+      <%= form.file_field :drawing, class: "form-control" %>
+    <% end %>
+  </div>
 
   <% if form.object.new_record? || part.base_material.nil? %>
-    <div>
-      <%= form.label :field_type, "Does the part have subcomponents?", style: "display: block" %>
-      <%= form.select :field_type, [["Yes", "yes"], ["No", "no"]], { prompt: "" }, { id: "base_selector" } %>
+    <div class="mb-3">
+      <%= form.label :field_type, "Does the part have subcomponents?", class: "form-label" %>
+      <%= form.select :field_type, [["Yes", "yes"], ["No", "no"]], { prompt: "Select" }, { id: "base_selector", class: "form-select" } %>
     </div>
 
-    <div id="base_material_field" style="display: none">
-      <%= form.label :base_material, style: "display: block" %>
-      <%= form.text_field :base_material %>
+    <div id="base_material_field" style="display: none" class="mb-3">
+      <%= form.label :base_material, class: "form-label" %>
+      <%= form.text_field :base_material, class: "form-control" %>
     </div>
 
-    <div id="subcomponent_field" style="display: none">
+    <div id="subcomponent_field" style="display: none" class="mb-3">
       <div id="child-fields-container"></div>
       <button type="button" id="add-child-field" class="btn btn-primary">Add Component</button>
       <%= form.hidden_field :base_material, value: "subcomponent", id: "subcomponent-material-field" %>
     </div>
-  
   <% elsif part.base_material == "subcomponent" %>
-    Subcomponents:
-    <div id="child-fields-container">
-      <% part.child_parts.each do |child| %>
-        <div class="d-flex small">
-          <p>PN# <%= child.part_number %> Rev <%= child.revision %></p>
-        </div>
-      <% end %>
+    <div class="mb-3">
+      <strong>Subcomponents:</strong>
+      <div id="child-fields-container">
+        <% part.child_parts.each do |child| %>
+          <div class="d-flex small mb-2">
+            <p class="mb-0">PN# <%= child.part_number %> Rev <%= child.revision %></p>
+          </div>
+        <% end %>
+      </div>
+      <button type="button" id="add-child-field" class="btn btn-primary">Add Component</button>
     </div>
-    <button type="button" id="add-child-field" class="btn btn-primary">Add Component</button>
   <% else %>
-    <div>
-      <%= form.label :base_material, style: "display: block" %>
-      <%= form.text_field :base_material %>
+    <div class="mb-3">
+      <%= form.label :base_material, class: "form-label" %>
+      <%= form.text_field :base_material, class: "form-control" %>
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :finish, style: "display: block" %>
-    <%= form.text_field :finish %>
+  <div class="mb-3">
+    <%= form.label :finish, class: "form-label" %>
+    <%= form.text_field :finish, class: "form-control" %>
   </div>
 
   <% unless form.object.new_record? %>
-    <div>
-      <%= form.label :measured_status, style: "display: block" %>
-      <%= form.check_box :measured_status %>
+    <div class="mb-3">
+      <%= form.label "Part measured?", class: "form-label" %>
+      <%= form.check_box :measured_status, class: "form-check-input" %>
     </div>
   <% end %>
-  
-  <div>
-    <%= form.submit %>
+
+  <div class="text-center">
+    <%= form.submit "Save", class: "btn btn-primary" %>
   </div>
 <% end %>
+</div>
 

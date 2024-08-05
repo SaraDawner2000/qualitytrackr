@@ -1,12 +1,15 @@
-<h1>New quality project</h1>
-<h2>Step 1</h2>
-<h3>Add part</h3>
-<%= render "form", part: @part %>
+<div class="container d-flex justify-content-center my-5">
+  <div class="card" style="width: 33%;">
+    <div class="card-body">
+      <h3 class="card-title text-center">New Quality Project Form</h3>
+      <h4>Step 1</h4>
+      <%= render "form", part: @part %>
+      <div class="card-footer text-center">
+      <%= link_to "Back to quality projects", quality_projects_path, class: "btn btn-secondary" %>
+    </div>
+  </div>
+</div>
 
 <br>
-
-<div>
-  <%= link_to "Back to parts", parts_path %>
-</div>
 
 
