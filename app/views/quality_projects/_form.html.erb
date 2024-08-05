@@ -1,4 +1,4 @@
-<!--<script>
+<script>
   document.addEventListener("turbo:load", function() {
     const customerSelector = document.getElementById("customer_selector");
     const mctractorField = document.getElementById("mctractor_field");
@@ -42,7 +42,7 @@
       }
     });
   });
-</script>-->
+</script>
 
 <%= form_with(model: quality_project) do |form| %>
   <% if quality_project.errors.any? %>
@@ -68,7 +68,7 @@
   </div>
   <% end %>
 
-  <!--<div id="mctractor_field" style="display: none">
+  <div id="mctractor_field" style="display: none">
     <%= form.label :customer_request, style: "display: block" %>
     <%= form.text_field :customer_request %>
     <%= form.hidden_field :customer, value: "mctractor" %>
@@ -80,7 +80,7 @@
   </div>
 
   <%= form.hidden_field :customer, value: "", id: "hidden_customer_field" %>
-  <%= form.hidden_field :customer_request, value: "", id: "hidden_customer_request_field" %>-->
+  <%= form.hidden_field :customer_request, value: "", id: "hidden_customer_request_field" %>
   <div>
   <%= form.label :customer_request, style: "display: block" %>
   <%= form.text_field :customer_request %>
@@ -95,32 +95,44 @@
   <% unless form.object.new_record? %>
     <div class = "d-flex">
       <% if quality_project.inspection_plan.attached? %>
-            <%= form.label :inspection_plan, "Replace inspection plan:" %>
-            <%= form.file_field :inspection_plan, class: "form-control" %>
-            <p>or</p>
-            <%= link_to "Remove current inspection plan", remove_inspection_plan_quality_project_path(part), class: 'btn btn-danger' %>
+            
+            <div>
+              <%= form.label :inspection_plan, "Replace inspection plan:" %>
+              <%= form.file_field :inspection_plan, class: "form-control" %>
+
+              <%= form.label :report_approval, style: "display: block" %>
+              <%= form.check_box :report_approval %>
+            </div>
+            <div>
+              <%= link_to "Remove inspection plan", remove_inspection_plan_quality_project_path(quality_project), class: 'btn btn-danger' %>
+            </div>
+            
+            
       <% else %>
             <%= form.label :inspection_plan, "Add inspection plan:" %>
             <%= form.file_field :inspection_plan, class: "form-control" %>
       <% end %>
 
-      <%= form.label :report_approval, style: "display: block" %>
-      <%= form.check_box :report_approval %>
+
     </div>
 
     <div class = "d-flex">
       <% if quality_project.inspection_plan.attached? %>
-            <%= form.label :inspection_plan, "Replace assembled record:" %>
-            <%= form.file_field :inspection_plan, class: "form-control" %>
-            <p>or</p>
-            <%= link_to "Remove current inspection plan", remove_inspection_plan_quality_project_path(part), class: 'btn btn-danger' %>
+            <div>
+            <%= form.label :assembled_record, "Replace assembled record:" %>
+            <%= form.file_field :assembled_record, class: "form-control" %>
+            <%= form.label :record_approval, style: "display: block" %>
+            <%= form.check_box :record_approval %>
+            </div>
+            <div>
+            <%= link_to "Remove assembled record", remove_inspection_plan_quality_project_path(quality_project), class: 'btn btn-danger' %>
+            </div>
       <% else %>
-            <%= form.label :inspection_plan, "Add assembled record:" %>
-            <%= form.file_field :inspection_plan, class: "form-control" %>
+            <%= form.label :assembled_record, "Add assembled record:" %>
+            <%= form.file_field :assembled_record, class: "form-control" %>
       <% end %>
 
-      <%= form.label :record_approval, style: "display: block" %>
-      <%= form.check_box :record_approval %>
+      
     </div>
 
     <div class = "d-flex">
