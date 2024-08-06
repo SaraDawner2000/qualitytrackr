@@ -1,0 +1,62 @@
+<div class="container border border-dark-subtle rounded my-5 py-4">
+  <%= search_form_for @part_query, url: parts_path do |f| %>
+    <div class="row justify-content-evenly">
+      <div class="col-lg-3 col-md-4">
+        <%= f.label "Quality Project" %>
+      </div>
+      <div class="col-lg-3 col-md-4">
+        <%= f.label "Customer" %>
+      </div>
+      <div class="col-lg-3 col-md-4">
+        <%= f.label "Part Number" %>
+      </div>
+      <div class="col-lg-3 col-md-4">
+        <%= f.label "Part Revision" %>
+      </div>
+    </div>
+
+    <div class="row justify-content-evenly">
+      <div class="col-lg-3 col-md-4">
+        <%= f.search_field :quality_project_id_eq, class: 'form-control' %>
+      </div>
+      <div class="col-lg-3 col-md-4">
+        <%= f.search_field :quality_project_customer_cont, class: 'form-control' %>
+      </div>
+      <div class="col-lg-3 col-md-4">
+        <%= f.search_field :part_number_cont, class: 'form-control' %>
+      </div>
+      <div class="col-lg-3 col-md-4">
+        <%= f.search_field :revision_cont, class: 'form-control' %>
+      </div>
+    </div>
+
+    <div class="row justify-content-evenly mt-3">
+      <div class="col-lg-3 col-md-4">
+        <%= f.label "Base material" %>
+      </div>
+      <div class="col-lg-3 col-md-4">
+        <%= f.label "Finish" %>
+      </div>
+      <div class="col-lg-3 col-md-4">
+        <%= f.label "Measured" %>
+      </div>
+      <div class="col-lg-3 col-md-4">
+      </div>
+    </div>
+
+    <div class="row justify-content-evenly">
+      <div class="col-lg-3 col-md-4">
+        <%= f.search_field :base_material_cont, class: 'form-control' %>
+      </div>
+      <div class="col-lg-3 col-md-4">
+        <%= f.search_field :finish_cont, class: 'form-control' %>
+      </div>
+      <div class="col-lg-3 col-md-4">
+        <%= f.select :measured_status_eq, [['Measured', true], ['Not measured', false]], { include_blank: 'All' }, { class: 'form-select' } %>
+      </div>
+      <div class="col-lg-3 col-md-4">
+        <%= f.submit "Search", class: 'btn btn-primary w-100' %>
+      </div>
+    </div>
+  <% end %>
+</div>

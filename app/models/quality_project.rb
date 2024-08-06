@@ -8,7 +8,7 @@ class QualityProject < ApplicationRecord
   belongs_to :part
 
   def self.ransackable_attributes(auth_object = nil)
-    ["part_id", "part_number", "assembled_record", "customer", "customer_options", "id", "inspection_plan", "customer_request", "purchase_order"]
+    [  "id", "customer", "part_number", "part_revision", "customer_request", "purchase_order", "report_approval", "record_approval", "customer_approval"]
   end
 
   def self.ransackable_associations(auth_object = nil)

@@ -18,6 +18,7 @@ class Part < ApplicationRecord
   scope :single_or_child_parts, -> { where.not(base_material: "subcomponent") }
 
   scope :drawing_attached, -> { joins(:drawing_attachment) }
+  scope :drawing_not_attached, -> { left_joins(:drawing_attachment).where(active_storage_attachments: { id: nil }) }
 
   scope :with_inspection_plan, -> { joins(quality_project: :inspection_plan_attachment) }
 

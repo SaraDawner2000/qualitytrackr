@@ -6,7 +6,7 @@ class CreateParts < ActiveRecord::Migration[7.0]
       t.string :job
       t.string :base_material
       t.string :finish
-      t.boolean :measured_status, mull: false, default: false
+      t.boolean :measured_status, null: false, default: false
       t.index [:part_number, :revision], unique: true
 
       t.timestamps

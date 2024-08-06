@@ -5,8 +5,16 @@ class QualityProjectsController < ApplicationController
 
   # GET /quality_projects or /quality_projects.json
   def index
-    @q = QualityProject.ransack(params[:q])
-    @quality_projects = @q.result.page(params[:page])
+    @quality_project_query = QualityProject.ransack(params[:q])
+
+    if params.dig(:quality_project_query, :report_approval_eq) == "nil"
+      @quality_projects = QualityProject.where(report_approval: nil)
+    elsif params.dig(:quality_project_query, :record_approval_eq) == "nil"
+      @quality_projects = QualityProject.where(record_approval: nil)
+    else
+      @quality_projects = @quality_project_query.result
+    end
+    @quality_projects = @quality_projects.page(params[:page])
   end
 
   # GET /quality_projects/1 or /quality_projects/1.json
