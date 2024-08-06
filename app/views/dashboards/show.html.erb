@@ -1,4 +1,9 @@
-<h1>Dashboard</h1>
-<h3>Welcome back, <%= current_user.username %>!</h3>
-<%= render "tasks_summary" %>
-<%= render "dashboard_tab_nav" %>
+<div class="container">
+  <h1 class="display-3 mt-4">Dashboard</h1>
+  <div class="d-flex justify-content-between my-4">
+  <h3 class="text-success">Welcome back, <%= current_user.username %>!</h3>
+  <%= link_to "Add new quality project", new_part_path, class: "btn btn-primary"%>
+  </div>
+  <%= render "tasks_summary" %>
+  <%= render "dashboard_tab_nav" %>
+</div>
