@@ -1,81 +1,6 @@
-<div class="container border border-dark-subtle rounded my-5 py-4">
-<%= search_form_for @q, url: quality_projects_path do |f| %>
-  <div class="row justify-content-evenly">
-    <div class="col-lg-2 col-md-4">
-      <%= f.label :id_eq, "Project #" %>
-    </div>
-    <div class="col-lg-2 col-md-4">
-      <%= f.label "Customer" %>
-    </div>
-    <div class="col-lg-2 col-md-4">
-      <%= f.label "Part #" %>
-    </div>
-    <div class="col-lg-2 col-md-4">
-      <%= f.label "Part revision" %>
-    </div>
-    <div class="col-lg-2 col-md-4">
-      <%= f.label "Customer request" %>
-    </div>
-  </div>
 
-  <div class="row justify-content-evenly">
-    <div class="col-lg-2 col-md-4">
-      <%= f.search_field :id_eq, class: 'form-control' %>
-    </div>
-    <div class="col-lg-2 col-md-4">
-      <%= f.search_field :customer_cont, class: 'form-control' %>
-    </div>
-    <div class="col-lg-2 col-md-4">
-      <%= f.search_field :part_part_number_cont, class: 'form-control' %>
-    </div>
-    <div class="col-lg-2 col-md-4">
-      <%= f.search_field :part_revision_cont, class: 'form-control' %>
-    </div>
-    <div class="col-lg-2 col-md-4">
-      <%= f.search_field :customer_request_cont, class: 'form-control' %>
-    </div>
-  </div>
-
-  <div class="row justify-content-evenly">
-    <div class="col-lg-2 col-md-4">
-      <%= f.label "Purchase order" %>
-    </div>
-    <div class= "col-lg-2 col-md-4">
-      <%= f.label :report_approval %>
-    </div>
-    <div class="col-lg-2 col-md-4">
-      <%= f.label :customer_approval %>
-    </div>
-    <div class="col-lg-2 col-md-4">
-      <%= f.label :record_approval %>
-    </div>
-    <div class="col-lg-2 col-md-4">
-    </div>
-  </div>
-
-  <div class="row justify-content-evenly">
-    <div class="col-lg-2 col-md-4">
-      <%= f.search_field :purchase_order_cont, class: 'form-control' %>
-    </div>
-    <div class="col-lg-2 col-md-4">
-      <%= f.select :report_approval_eq, [['Approved', true], ['Needs approval', false], ['Not available', 'nil']], { include_blank: 'All' }, { class: 'form-select' } %>
-    </div>
-    <div class="col-lg-2 col-md-4">
-      <%= f.select :record_approval_eq, [['Approved', true], ['Needs approval', false], ['Not available', 'nil']], { include_blank: 'All' }, { class: 'form-select' } %>
-    </div>
-    <div class="col-lg-2 col-md-4">
-      <%= f.select :customer_approval_eq, QualityProject.customer_options, { include_blank: 'All' }, { class: 'form-select' } %>
-    </div>
-    <div class="col-lg-2 col-md-4">
-      <%= f.submit "Search", class: 'btn btn-primary w-100' %>
-    </div>
-  </div>
-<% end %>
-</div>
-
-<table class="table table-striped-columns table-hover">
-    <thead>
-        <% if current_page?(quality_projects_path) %>
+  <table class="table table-bordered table-striped-columns table-hover">
+      <thead>
         <tr>
             <th scope="col">
                 <%= sort_link(@q, :id, "Quality project") %>
@@ -105,24 +30,13 @@
                 <%= sort_link(@q, :customer_approval, "Customer approval") %>
             </th>
         </tr>
-        <% else %>
-            <th scope="col">Quality project</th>
-            <th scope="col">Customer</th>
-            <th scope="col">Part number</th>
-            <th scope="col">Part revision</th>
-            <th scope="col">Customer request</th>
-            <th scope="col">Purchase order</th>
-            <th scope="col">Inspection plan</th>
-            <th scope="col">Assembled record</th>
-            <th scope="col">Customer approval</th>
-        <% end %>
-    </thead>
-    <tbody>
-        <% quality_projects.each do |quality_project| %>
-            <tr>
-                <%= render "quality_projects/table_field", quality_project: quality_project %>
-            </tr>
-        <% end %>
-        
-    </tbody>
-</table>
+      </thead>
+      <tbody>
+          <% quality_projects.each do |quality_project| %>
+              <tr>
+                  <%= render "quality_projects/table_field", quality_project: quality_project %>
+              </tr>
+          <% end %>
+          
+      </tbody>
+  </table>
