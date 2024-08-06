@@ -1,5 +1,20 @@
-<h1>Parts</h1>
+<div class="container">
+  <div class="d-flex justify-content-between align-items-center">
+    <div class="d-flex align-items-center mt-4">
+      <h1 class="display-3">Parts</h1>
+    </div>
+  </div>
+  <%= render "parts/search_box" %>
 
-<%= render "table", parts: @parts %>
+  <div class="container">
+    <div class="d-flex justify-content-end">
+      <%= paginate @parts %>
+    </div>
 
-<%= paginate @parts %>
+    <%= render "table", parts: @parts %>
+
+    <div class="d-flex justify-content-end">
+      <%= paginate @parts %>
+    </div>
+  </div>
+</div>

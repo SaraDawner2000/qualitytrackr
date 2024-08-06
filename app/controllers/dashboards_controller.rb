@@ -1,22 +1,9 @@
 class DashboardsController < ApplicationController
   def show
-    @q = QualityProject.ransack(params[:q])
-    @quality_projects = @q.result.page(params[:page])
-  end
+    @part_query = Part.ransack(params[:q])
+    @parts = @part_query.result
 
-  def sort_parts
-    @q_parts = Part.ransack(params[:q_parts])
-    @parts = @q_parts.result
-    respond_to do |format|
-      format.js { render partial: "parts/parts_table" }
-    end
-  end
-
-  def sort_quality_projects
-    @q_quality_projects = QualityProject.ransack(params[:q_quality_projects])
-    @quality_projects = @q_quality_projects.result
-    respond_to do |format|
-      format.js { render partial: "quality_projects/quality_projects_table" }
-    end
+    @quality_project_query = QualityProject.ransack(params[:q])
+    @quality_projects = @quality_project_query.result
   end
 end
