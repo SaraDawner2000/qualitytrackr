@@ -4,7 +4,7 @@
 <td><%= quality_project.part.revision %></td>
 
 <% if quality_project.customer_request == nil %>
-    <td>Not available</td>
+    <td class="text-danger">Not available</td>
 <% elsif quality_project.customer_request == "not_applicable" %>
     <td>Not required</td>
 <% else %>
@@ -16,7 +16,7 @@
 <% if quality_project.report_approval == nil %>
 <td>Not available</td>
 <% elsif quality_project.report_approval == false%>
-<td>Requires approval</td>
+<td class="text-danger">Requires approval</td>
 <% else %>
 <td class="text-success">Approved</td>
 <% end %>
@@ -24,7 +24,7 @@
 <% if quality_project.record_approval == nil %>
 <td>Not available</td>
 <% elsif quality_project.record_approval == false%>
-<td>Requires approval</td>
+<td class="text-danger">Requires approval</td>
 <% else %>
 <td class="text-success">Approved</td>
 <% end %>
