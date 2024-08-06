@@ -5,8 +5,8 @@ class PartsController < ApplicationController
   before_action :destroy_duds, only: %i[ index ]
   # GET /parts or /parts.json
   def index
-    @q = Part.ransack(params[:q])
-    @parts = @q.result.page(params[:page])
+    @part_query = Part.ransack(params[:q])
+    @parts = @part_query.result.page(params[:page])
   end
 
   def remove_drawing

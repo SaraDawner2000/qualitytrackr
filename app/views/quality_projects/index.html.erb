@@ -1,18 +1,23 @@
-<div class="d-flex justify-content-between align-items-center">
-  <div class="d-flex align-items-center">
-    <h1>Quality projects</h1>
-    <%= link_to new_part_path, class: "btn btn-primary mx-3" do %>
-      <i class="fa-solid fa-plus"></i>
-    <% end %>
-  </div>
-</div>
-<%= render "quality_projects/search_box" %>
-
 <div class="container">
-  <div class="d-flex justify-content-end">
-    <%= paginate @quality_projects %>
+  <div class="d-flex justify-content-between align-items-center">
+    <div class="d-flex align-items-center mt-4">
+      <h1 class="display-3">Quality projects</h1>
+      <%= link_to new_part_path, class: "btn btn-primary mx-4" do %>
+        <i class="fa-solid fa-plus fa-2xl"></i>
+      <% end %>
+    </div>
   </div>
-  <%= render "table", quality_projects: @quality_projects %>
+  <%= render "quality_projects/search_box" %>
+
+  <div class="container">
+    <div class="d-flex justify-content-end">
+      <%= paginate @quality_projects %>
+    </div>
+
+    <%= render "table", quality_projects: @quality_projects %>
+
+    <div class="d-flex justify-content-end">
+      <%= paginate @quality_projects %>
+    </div>
+  </div>
 </div>
-
-

@@ -1,5 +1,5 @@
 <div class="container border border-dark-subtle rounded my-5 git py-4">
-  <%= search_form_for @q, url: quality_projects_path do |f| %>
+  <%= search_form_for @quality_project_query, url: quality_projects_path do |f| %>
     <div class="row justify-content-evenly">
       <div class="col-lg-2 col-md-4">
         <%= f.label :id_eq, "Project #" %>
@@ -36,7 +36,7 @@
       </div>
     </div>
 
-    <div class="row justify-content-evenly">
+    <div class="row justify-content-evenly mt-3">
       <div class="col-lg-2 col-md-4">
         <%= f.label "Purchase order" %>
       </div>
