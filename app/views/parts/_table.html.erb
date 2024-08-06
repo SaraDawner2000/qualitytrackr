@@ -1,28 +1,4 @@
-<%= search_form_for @q do |f| %>
-  <%= f.grouping_fields(f.object.new_grouping) do |g| %>
-    <%= g.condition_fields(g.object.new_condition) do |c| %>
-      <%= c.attribute_fields do |a| %>
-        <%= a.attribute_select only: %i(part_number part_revision base_material finish) %>
-      <% end %>
-      <span id="predicate_field">
-        <%= c.predicate_select only: %i(eq not_eq cont), id: 'predicate_select' %>
-      </span>
-      <%= c.value_fields do |v| %>
-        <span id="value_input">
-          <%= v.text_field :value, id: 'condition_value' %>
-        </span>
-      <% end %>
-    <% end %>
-  <% end %>
-  <div>
-    <%= f.label :measured_status %>
-    <%= f.select :measured_status_eq, [['Yes', true], ['No', false]], include_blank: 'All' %>
-  </div>
-  <%= f.submit "Search", class: 'btn btn-primary' %>
-<% end %>
-
-
-<table class="table table-striped-columns table-hover">
+<table class="table table-bordered table-striped-columns table-hover">
     <thead>
         <tr>
             <% if current_page?(parts_path) %>
