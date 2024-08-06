@@ -1,24 +1,54 @@
-<%= search_form_for @q do |f| %>
-  <%= f.grouping_fields(f.object.new_grouping) do |g| %>
-    <%= g.condition_fields(g.object.new_condition) do |c| %>
-      <%= c.attribute_fields do |a| %>
-        <%= a.attribute_select only: %i(id customer part_number part_revision customer_request purchase_order) %>
-      <% end %>
-      <%= c.predicate_select only: %i(cont not_eq eq) %>
-      <%= c.value_fields do |v| %>
-        <%= v.text_field :value %>
-      <% end %>
-    <% end %>
-  <% end %>
+<%= search_form_for @q, url: quality_projects_path do |f| %>
+
+  <div>
+    <%= f.label "Project number equals: " %>
+    <%= f.search_field :id_eq %>
+  </div>
+
+  <div>
+    <%= f.label :customer_cont %>
+    <%= f.search_field :customer_cont %>
+  </div>
+
+  <div>
+    <%= f.label :part_part_number_cont %>
+    <%= f.search_field :part_part_number_cont %>
+  </div>
+
+  <div>
+    <%= f.label :part_revision_cont %>
+    <%= f.search_field :part_revision_cont %>
+  </div>
+
+  <div>
+    <%= f.label :part_revision_cont %>
+    <%= f.search_field :part_revision_cont %>
+  </div>
+
+  <div>
+    <%= f.label :customer_request_cont %>
+    <%= f.search_field :customer_request_cont %>
+  </div>
+
+  <div>
+    <%= f.label :purchase_order_cont %>
+    <%= f.search_field :purchase_order_cont %>
+  </div>
+
   <div>
     <%= f.label :report_approval %>
-    <%= f.select :report_approval_eq, [['Approved', true], ['Needs approval', false]], include_blank: 'All' %>
+    <%= f.select :report_approval_eq, [['Approved', true], ['Needs approval', false], ['Not available', 'nil']], include_blank: 'All' %>
   </div>
+
   <div>
     <%= f.label :record_approval %>
-    <%= f.select :record_approval_eq, [['Approved', true], ['Needs approval', false]], include_blank: 'All' %>
+    <%= f.select :record_approval_eq, [['Approved', true], ['Needs approval', false], ['Not available', 'nil']], include_blank: 'All' %>
   </div>
-  
+
+  <div>
+    <%= f.label :customer_approval %>
+    <%= f.select :customer_approval_eq, QualityProject.customer_options, include_blank: 'All' %>
+  </div>
   
   <%= f.submit "Search", class: 'btn btn-primary' %>
 <% end %>

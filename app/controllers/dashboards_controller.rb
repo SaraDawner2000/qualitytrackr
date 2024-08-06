@@ -1,6 +1,7 @@
 class DashboardsController < ApplicationController
   def show
-    @user = current_user
+    @q = QualityProject.ransack(params[:q])
+    @quality_projects = @q.result.page(params[:page])
   end
 
   def sort_parts
