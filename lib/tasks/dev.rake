@@ -134,6 +134,7 @@ unless Rails.env.production?
             filename: "dummy_inspection_plan.xlsx",
             content_type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
           )
+          project.report_approval = false
 
           if rand < 0.6
             project.report_approval = true
@@ -149,6 +150,7 @@ unless Rails.env.production?
                 filename: "dummy_inspection_plan.xlsx",
                 content_type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
               )
+              project.report_approval = false
             end
           end
         end
@@ -160,6 +162,7 @@ unless Rails.env.production?
             filename: "dummy_assembled_record.pdf",
             content_type: "application/pdf"
           )
+          project.record_approval = false
         end
 
         if project.assembled_record.attached? && rand < 0.3

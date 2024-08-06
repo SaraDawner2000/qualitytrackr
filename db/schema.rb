@@ -68,7 +68,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_01_204005) do
     t.string "job"
     t.string "base_material"
     t.string "finish"
-    t.boolean "measured_status", default: false
+    t.boolean "measured_status", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["part_number", "revision"], name: "index_parts_on_part_number_and_revision", unique: true
@@ -79,8 +79,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_01_204005) do
     t.string "customer", null: false
     t.string "customer_request"
     t.string "purchase_order"
-    t.boolean "report_approval", default: false, null: false
-    t.boolean "record_approval", default: false, null: false
+    t.boolean "report_approval"
+    t.boolean "record_approval"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.enum "customer_approval", default: "unready", enum_type: "customer_options"

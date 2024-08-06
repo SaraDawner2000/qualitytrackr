@@ -1,10 +1,18 @@
 <div class="d-flex justify-content-between align-items-center">
-<h1>Quality projects</h1>
-<%= link_to "Add new project", new_part_path, class: "btn btn-primary" %>
+  <div class="d-flex align-items-center">
+    <h1>Quality projects</h1>
+    <%= link_to new_part_path, class: "btn btn-primary mx-3" do %>
+      <i class="fa-solid fa-plus"></i>
+    <% end %>
+  </div>
 </div>
+<%= render "quality_projects/search_box" %>
 
-
-<%= render "table", quality_projects: @quality_projects %>
-<%= paginate @quality_projects %>
+<div class="container">
+  <div class="d-flex justify-content-end">
+    <%= paginate @quality_projects %>
+  </div>
+  <%= render "table", quality_projects: @quality_projects %>
+</div>
 
 

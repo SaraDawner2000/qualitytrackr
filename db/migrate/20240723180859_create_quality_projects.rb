@@ -8,8 +8,8 @@ class CreateQualityProjects < ActiveRecord::Migration[7.0]
       t.string :customer, null: false
       t.string :customer_request
       t.string :purchase_order
-      t.boolean :report_approval, null: false, default: false
-      t.boolean :record_approval, null: false, default: false
+      t.boolean :report_approval, default: nil
+      t.boolean :record_approval, default: nil
 
 
       t.timestamps
