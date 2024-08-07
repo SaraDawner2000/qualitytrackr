@@ -15,6 +15,7 @@ QualiTrackr consolidates all components of a PPAP record in one place and tracks
 [![Bootstrap 5.3.3][Bootstrap-shield]][Bootstrap-url]
 
 *everything below needs to be completed*
+*refactoring is required before continuing*
 ## Getting Started
 
 ### Prerequisites
