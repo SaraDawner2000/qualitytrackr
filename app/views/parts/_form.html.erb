@@ -110,7 +110,7 @@
   </div>
 
   <div class="mb-3">
-    <% if part.drawing.attached? %>
+    <% unless form.object.new_record? %>
       <div>
         <%= form.label "Replace drawing:", class: "form-label" %>
         <%= form.file_field :drawing, class: "form-control" %>
@@ -119,7 +119,6 @@
         <%= form.label "Remove current drawing:", class: "form-label mb-0" %>
         <%= link_to "remove", remove_drawing_part_path(part), class: 'btn btn-danger' %>
       </div>
-      
     <% else %>
       <%= form.label "Add drawing:", class: "form-label" %>
       <%= form.file_field :drawing, class: "form-control" %>
