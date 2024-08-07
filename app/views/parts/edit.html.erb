@@ -1,10 +1,11 @@
-<h1>Editing part</h1>
-
-<%= render "form", part: @part %>
-
-<br>
-
-<div>
-  <%= link_to "Show this part", @part %>
-  <%= link_to "Back to parts", parts_path %>
+<div class="container d-flex justify-content-center my-5">
+  <div class="card" style="width: 33%;">
+    <div class="card-body">
+      <h3 class="card-title text-center">Edit Part Form</h3>
+      <%= render "form", part: @part %>
+    <div class="card-footer text-center">
+      <%= link_to "Show this part", @part, class: "btn btn-primary me-2" %>
+      <%= link_to "Back to parts", parts_path, class: "btn btn-secondary" %>
+    </div>
+  </div>
 </div>

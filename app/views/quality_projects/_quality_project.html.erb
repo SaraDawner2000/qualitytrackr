@@ -1,58 +1,100 @@
-<div id="<%= dom_id quality_project %>">
-  <p>
-    <strong>Part:</strong>
-    <%= quality_project.part_id %>
-  </p>
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-4">
+      <div class="card mb-3" id="<%= dom_id(quality_project) %>">
+        <div class="card-header">
+          <h3 class="card-title text-center">Quality Project Details</h3>
+        </div>
+        <div class="card-body">
+          <dl class="row align-items-center">
+            <dt class="col-sm-7">Quality Project:</dt>
+            <dd class="col-sm-5"><%= quality_project.part_id %></dd>
 
-  <p>
-    <strong>Customer:</strong>
-    <%= quality_project.customer %>
-  </p>
+            <dt class="col-sm-7">Customer:</dt>
+            <dd class="col-sm-5"><%= quality_project.customer %></dd>
 
-  <p>
-    <strong>Customer request:</strong>
-    <%= quality_project.customer_request %>
-  </p>
+            <dt class="col-sm-7">Customer Request:</dt>
+            <dd class="col-sm-5"><%= quality_project.customer_request %></dd>
 
-  <p>
-    <strong>Purchase order:</strong>
-    <%= quality_project.purchase_order %>
-  </p>
+            <dt class="col-sm-7">Purchase Order:</dt>
+            <% unless quality_project.purchase_order%>
+              <dd class="col-sm-5 text-danger">Add PO#</dd>
+            <% else %>
+              <dd class="col-sm-5"><%= quality_project.purchase_order %></dd>
+            <% end %>
 
-  <p>
-    <strong>Inspection plan:</strong>
-    <% if quality_project.inspection_plan.attached? %>
-        <a href="<%= rails_blob_url(quality_project.inspection_plan, disposition: "attachment") %>" class="btn btn-info">
-          download
-          <img src="<%= asset_path('color_sheet.png') %>" alt="Download Excel" style="width: 20px; height: 20px;">
-        </a>
-      <% else %>
-        <p>No inspection plan on file.</p>
-      <% end %>
-  </p>
+            <dt class="col-sm-7">Inspection Plan:</dt>
+            <dd class="col-sm-5">
+              <% if quality_project.inspection_plan.attached? %>
+                <a href="<%= rails_blob_url(quality_project.inspection_plan, disposition: 'attachment') %>" class="btn btn-info d-flex align-items-center">
+                  Download
+                  <img src="<%= asset_path('color_sheet.png') %>" alt="Download Excel" style="width: 20px; height: 20px;" class="ms-2">
+                </a>
+              <% else %>
+                <span class="text-muted">Not on file</span>
+              <% end %>
+            </dd>
 
-  <p>
-    <strong>Report approval:</strong>
-    <%= quality_project.report_approval %>
-  </p>
+            <dt class="col-sm-7">Report Approval:</dt>
+            <% unless quality_project.report_approval%>
+              <dd class="col-sm-5 text-danger">Not approved</dd>
+            <% else %>
+              <dd class="col-sm-5 text-success">Approved</dd>
+            <% end %>
 
-  <p>
-    <strong>Assembled record:</strong>
-    <% if quality_project.assembled_record.attached? %>
-        <a href="<%= rails_blob_url(quality_project.assembled_record, disposition: "attachment") %>" class="btn btn-info">
-          download
-          <img src="<%= asset_path('color_sheet.png') %>" alt="Download Excel" style="width: 20px; height: 20px;">
-        </a>
-      <% else %>
-        <p>No assembled record on file.</p>
-      <% end %>
-  </p>
+            <dt class="col-sm-7">Assembled Record:</dt>
+            <dd class="col-sm-5">
+              <% if quality_project.assembled_record.attached? %>
+                <a href="<%= rails_blob_url(quality_project.assembled_record, disposition: 'attachment') %>" class="btn btn-info d-flex align-items-center">
+                  Download
+                  <img src="<%= asset_path('color_download_pdf.png') %>" alt="Download Excel" style="width: 20px; height: 20px;" class="ms-2">
+                </a>
+              <% else %>
+                <span class="text-muted">Not on file</span>
+              <% end %>
+            </dd>
 
-  <p>
-    <strong>Customer approval:</strong>
-    <%= quality_project.customer_approval %>
-  </p>
-  <% @part = Part.find(quality_project.part_id) %>
-  <%= render "part_list", part: @part %>
+            <dt class="col-sm-7">Record Approval:</dt>
+            <% unless quality_project.report_approval%>
+              <dd class="col-sm-5 text-danger">Not approved</dd>
+            <% else %>
+              <dd class="col-sm-5 text-success">Approved</dd>
+            <% end %>
 
+            <dt class="col-sm-7">Customer Approval:</dt>
+            <% case quality_project.customer_approval %>
+              <% when "unready" %>
+                  <dd class="col-sm-5">Not ready</dd>
+              <% when "ready" %>
+                  <dd class="col-sm-5">Ready for customer</dd>
+              <% when "sent" %>
+                  <dd class="col-sm-5">Sent to customer</dd>
+              <% when "approved" %>
+                  <dd class="col-sm-5 text-success">Approved</dd>
+              <% when "rejected" %>
+                  <dd class="col-sm-5 text-danger">Rejected</dd>
+            <% end %>
+          </dl>
+          <div>
+            <% @part = Part.find(quality_project.part_id) %>
+            <%= render "part_list", part: @part %>
+          </div>
+        </div>
+        <div class="card-footer text-muted d-flex flex-wrap align-items-center justify-content-center">
+          <%= link_to "Edit this project", edit_quality_project_path(quality_project), class: "btn btn-warning m-2" %>
+          <%= link_to "Back to dashboard", dashboard_path, class: "btn btn-secondary m-2" %>
+          <%= button_to "Destroy this project", quality_project, method: :delete, class: "btn btn-danger m-1" %>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+<style>
+  .card-body dl.row > dt,
+  .card-body dl.row > dd {
+    display: flex;
+    align-items: center;
+    height: 30px; /* Adjust this value as needed */
+  }
+</style>

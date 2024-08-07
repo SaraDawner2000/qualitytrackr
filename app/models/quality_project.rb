@@ -5,7 +5,7 @@ class QualityProject < ApplicationRecord
   enum customers: { sparky: "sparky", mctracktor: "mctracktor" }
   validates :customer, presence: true
 
-  belongs_to :part
+  belongs_to :part, dependent: :destroy
 
   def self.ransackable_attributes(auth_object = nil)
     [  "id", "customer", "part_number", "part_revision", "customer_request", "purchase_order", "report_approval", "record_approval", "customer_approval"]
