@@ -1,12 +1,12 @@
-<h6>Part associated with this project: </h6>
+<dt class="mb-1">Part associated with this project: </dt>
 <ul>
-    <li><%= link_to part.part_number, part_path(part) %></li>
+    <li><%= link_to "Part ##{part.part_number}, rev #{part.revision}", part_path(part) %></li>
     <% if part.children != []%>
     <li>
         <span>children: </span>
         <ul class="small">
             <% part.child_parts.each do |child| %>
-                <li><%= link_to child.part_number, part_path(child) %></li>
+                <li><%= link_to "Part ##{child.part_number}, rev #{child.revision}", part_path(child) %></li>
             <% end %>
 
         </ul>

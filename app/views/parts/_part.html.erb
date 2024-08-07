@@ -1,49 +1,74 @@
-<div class="container">
+<div class="container my-5">
   <div class="row justify-content-center">
     <div class="col-md-4">
       <div class="card mb-3" id="<%= dom_id(part) %>">
         <div class="card-header">
-          <h5 class="card-title">Part Details</h5>
+          <h3 class="card-title text-center">Part Details</h3>
         </div>
         <div class="card-body">
-          <dl class="row">
-            <dt class="col-sm-5">Part number:</dt>
-            <dd class="col-sm-7"><%= part.part_number %></dd>
+          <dl class="row align-items-center">
+            <dt class="col-sm-7">Part number:</dt>
+            <dd class="col-sm-5"><%= part.part_number %></dd>
 
-            <dt class="col-sm-5">Revision:</dt>
-            <dd class="col-sm-7"><%= part.revision %></dd>
+            <dt class="col-sm-7">Revision:</dt>
+            <dd class="col-sm-5"><%= part.revision %></dd>
 
-            <dt class="col-sm-5">Job:</dt>
-            <dd class="col-sm-7"><%= part.job %></dd>
+            <dt class="col-sm-7">Job:</dt>
+            <% unless part.job %>
+            <dd class="col-sm-5 text-danger">Add job number</dd>
+            <% else %>
+              <dd class="col-sm-5"><%= part.job %></dd>
+            <% end %>
 
-            <dt class="col-sm-5">Drawing:</dt>
-            <dd class="col-sm-7">
+            <dt class="col-sm-7">Drawing:</dt>
+            <dd class="col-sm-5">
               <% if part.drawing.attached? %>
-                <a href="<%= rails_blob_url(part.drawing, disposition: 'attachment') %>" class="btn btn-info">
+                <a href="<%= rails_blob_url(part.drawing, disposition: 'attachment') %>" class="btn btn-info d-flex align-items-center">
                   Download
                   <img src="<%= asset_path('color_download_pdf.png') %>" alt="Download PDF" style="width: 20px; height: 20px;" class="ms-2">
                 </a>
               <% else %>
-                <span class="text-muted">No drawing on file.</span>
+                <span class="text-muted">Not on file</span>
               <% end %>
             </dd>
 
-            <dt class="col-sm-5">Base material:</dt>
-            <dd class="col-sm-7"><%= part.base_material %></dd>
+            <dt class="col-sm-7">Base material:</dt>
+            <% unless part.base_material %>
+            <dd class="col-sm-5 text-danger">Add material</dd>
+            <% else %>
+              <dd class="col-sm-5"><%= part.base_material %></dd>
+            <% end %>
 
-            <dt class="col-sm-5">Finish:</dt>
-            <dd class="col-sm-7"><%= part.finish %></dd>
+            <dt class="col-sm-7">Finish:</dt>
+            <% unless part.finish %>
+            <dd class="col-sm-5">none added</dd>
+            <% else %>
+              <dd class="col-sm-5"><%= part.finish %></dd>
+            <% end %>
 
-            <dt class="col-sm-5">Measured status:</dt>
-            <dd class="col-sm-7"><%= part.measured_status %></dd>
+            <dt class="col-sm-7">Measured?</dt>
+            <% unless part.measured_status %>
+            <dd class="col-sm-5 text-danger">Not measured</dd>
+            <% else %>
+              <dd class="col-sm-5 text-success">Measured</dd>
+            <% end %>
           </dl>
         </div>
-        <div class="card-footer text-muted">
-          <%= link_to "Edit this part", edit_part_path(part), class: "btn btn-warning me-2" %>
-          <%= link_to "Back to parts", parts_path, class: "btn btn-secondary me-2" %>
-          <%= button_to "Destroy this part", part, method: :delete, class: "btn btn-danger" %>
+        <div class="card-footer text-muted d-flex flex-wrap align-items-center justify-content-center">
+          <%= link_to "Edit this part", edit_part_path(part), class: "btn btn-warning m-2" %>
+          <%= link_to "Back to dashboard", dashboard_path, class: "btn btn-secondary m-2" %>
+          <%= button_to "Destroy this part", part, method: :delete, class: "btn btn-danger m-1" %>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<style>
+  .card-body dl.row > dt,
+  .card-body dl.row > dd {
+    display: flex;
+    align-items: center;
+    height:30px; /* Adjust this value as needed */
+  }
+</style>

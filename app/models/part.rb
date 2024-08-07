@@ -4,12 +4,12 @@ class Part < ApplicationRecord
   validates :part_number, uniqueness: { scope: :revision, message: "part number of this revision already exists." }
   validates :part_number, :revision, presence: true
 
-  has_one :quality_project
+  has_one :quality_project, dependent: :destroy
 
-  has_many :children, foreign_key: :parent_id, class_name: "Subcomponent"
+  has_many :children, foreign_key: :parent_id, class_name: "Subcomponent", dependent: :destroy
   has_many :parents, foreign_key: :child_id, class_name: "Subcomponent"
 
-  has_many :child_parts, through: :children, source: :child
+  has_many :child_parts, through: :children, source: :child, dependent: :destroy
   has_many :parent_parts, through: :parents, source: :parent
 
   scope :top_parts, -> { where.not(id: Subcomponent.pluck(:child_id).uniq) }
